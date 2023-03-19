@@ -90,7 +90,7 @@ namespace Embedding_Name_Helper {
 		
 		private void CheckTagColors() {
 			foreach (TagRef tr in m_MasterTags) {
-				Utils.SetLabelColor(tr.Selected, tr.Uses, tr.Lbl);
+				tr.CheckLabelStatus();
 			}
 		}
 
@@ -148,6 +148,23 @@ namespace Embedding_Name_Helper {
 			CheckTagColors();
 		}
 
+		private void CommitStateToFiles() {
+			if (!(BtnSelectFolder.Tag is string folder)) { return; }
+
+			foreach (FilePlateRef plate in m_Plates) {
+				string fName = Utils.EnsureExtension(folder + "//" + plate.Text, "txt");
+				bool first = true;
+				using (BinaryWriter writer = new(File.Open(fName, FileMode.OpenOrCreate, FileAccess.Write))) {
+					foreach (Label l in plate.m_Flp.Controls) {
+						if (l.Tag is TagRef tr) {
+							writer.Write(((first ? "" : ",") + tr.Tag).ToCharArray());
+							first = false;
+						}
+					}
+				}
+			}
+		}
+
 		private void BtnShowAll_Click(object sender, EventArgs e) {
 			foreach (FilePlateRef plate in m_Plates) {
 				plate.m_Flp.SuspendLayout();
@@ -185,6 +202,15 @@ namespace Embedding_Name_Helper {
 					LoadFolder(fbd.SelectedPath);
 				}
 			}
+		}
+		private void BtnCommit_Click(object sender, EventArgs e) {
+			CommitStateToFiles();
+		}
+		private void BtnAddTag_Click(object sender, EventArgs e) {
+			TagRef tr = AddMasterTag(TbxTag.Text);
+			TbxTag.Text = "";
+			tr.Uses = 0;
+			tr.CheckLabelStatus();
 		}
 
 		private void CmsTag_Opening(object sender, System.ComponentModel.CancelEventArgs e) {

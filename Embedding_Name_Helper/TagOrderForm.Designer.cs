@@ -33,14 +33,13 @@
 			// 
 			this.TlpMain.ColumnCount = 1;
 			this.TlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.TlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this.TlpMain.Controls.Add(this.DgvTags, 0, 0);
 			this.TlpMain.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.TlpMain.Location = new System.Drawing.Point(0, 0);
 			this.TlpMain.Name = "TlpMain";
-			this.TlpMain.RowCount = 2;
+			this.TlpMain.RowCount = 1;
 			this.TlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.TlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+			this.TlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this.TlpMain.Size = new System.Drawing.Size(459, 450);
 			this.TlpMain.TabIndex = 0;
 			// 
@@ -56,7 +55,7 @@
 			this.DgvTags.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
 			this.DgvTags.RowTemplate.Height = 25;
 			this.DgvTags.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.DgvTags.Size = new System.Drawing.Size(453, 419);
+			this.DgvTags.Size = new System.Drawing.Size(453, 444);
 			this.DgvTags.TabIndex = 0;
 			this.DgvTags.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvTags_CellValueChanged);
 			// 

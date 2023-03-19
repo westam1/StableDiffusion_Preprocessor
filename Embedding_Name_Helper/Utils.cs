@@ -118,6 +118,61 @@ namespace Embedding_Name_Helper {
 
 			return ToCreate;
 		}
+		//
+		// Summary:
+		//     Checks the Base string parameter for the Target string at the specified position.
+		//     This function is range-safe(will not exceed string indexing).
+		//
+		// Parameters:
+		//   Base:
+		//     The base string.
+		//
+		//   Target:
+		//     The target string.
+		//
+		//   Position:
+		//     The position 'Target' should be at
+		//
+		// Returns:
+		//     True if the base string contains the target string at the specified position.
+		//     Otherwise returns false.
+		public static bool SafeStringCompare(string Base, string Target, int Position) {
+			if (Target == null || Base == null || Position < 0 || Target.Length + Position > Base.Length) {
+				return false;
+			}
+
+			if (Base.Substring(Position, Target.Length) == Target) {
+				return true;
+			}
+
+			return false;
+		}
+		//
+		// Summary:
+		//     Ensures that the specified file extension is found at the end of the Input string.
+		//
+		// Parameters:
+		//   Input:
+		//     The Input String.
+		//
+		//   Ext:
+		//     A valid File Extension, minus the preceding '.'
+		//
+		// Returns:
+		//     The Input string, guarunteed to end in the specified extension.
+		public static string EnsureExtension(string Input, string Ext) {
+			Ext = Ext.Replace(".", "");
+			int num = Input.LastIndexOf('.');
+			if (num == -1) {
+				return Input + "." + Ext;
+			}
+
+			if (SafeStringCompare(Input, Ext, num + 1)) {
+				return Input;
+			}
+
+			return Input.Substring(0, num) + "." + Ext;
+		}
 
 		public static MainForm Parent { get; set; } = null;
 	}
