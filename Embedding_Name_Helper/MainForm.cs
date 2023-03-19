@@ -13,8 +13,6 @@ namespace Embedding_Name_Helper {
 		private TagOrderForm m_TagOrderForm;
 		private int m_TagIndex;
 
-		//TODO: Need a tag ordering solution to stabilize position
-
 		public MainForm() {
 			InitializeComponent();
 			m_Plates = new List<FilePlateRef>();
@@ -119,7 +117,7 @@ namespace Embedding_Name_Helper {
 						if (len == 0) { parsing = false; }
 					}
 				}
-				catch { parsing = false; /* Could be bug, could be not A1111 chunk. */ }
+				catch { parsing = false; /* Note: Exception here could be bug, or could be not A1111 tEXt chunk. */ }
 			}
 		}
 		private void LoadFolder(string Folder) {
@@ -193,6 +191,8 @@ namespace Embedding_Name_Helper {
 			if (sender is ContextMenuStrip cms && cms.SourceControl is Label l && l.Tag is TagRef tr) {
 				CmsiShow.Checked = tr.Visible;
 				CmsiHide.Checked = !tr.Visible;
+
+				CmsiSeparator2.Visible = CmsiRemoveImg.Visible = (l != tr.Lbl);
 			}
 		}
 		private void CmsiAssign_Click(object sender, EventArgs e) {
@@ -213,6 +213,16 @@ namespace Embedding_Name_Helper {
 		private void CmsiHide_Click(object sender, EventArgs e) {
 			if (sender is ToolStripMenuItem item && item.Tag is ContextMenuStrip cms && cms.SourceControl is Label l && l.Tag is TagRef tr) {
 				tr.SetVisibility(false);
+			}
+		}
+		private void CmsiRemoveImg_Click(object sender, EventArgs e) {
+			if (sender is ToolStripMenuItem item && item.Owner is ContextMenuStrip cms && 
+				cms.SourceControl is Label l && l.Tag is TagRef tr && 
+				l.Parent is FlowLayoutPanel flp && flp.Tag is FilePlateRef plate) {
+				plate.RemoveTags(l);
+				tr.Children.Remove((l, plate));                             // "" + O(N)
+				tr.Uses--;
+				tr.CheckLabelStatus();
 			}
 		}
 

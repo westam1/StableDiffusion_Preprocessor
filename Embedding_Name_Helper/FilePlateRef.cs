@@ -37,6 +37,7 @@ namespace Embedding_Name_Helper {
 				AutoScroll = true,
 				Margin = new Padding(0, 0, 0, 0),
 				AllowDrop = true,
+				Tag = this,
 			};
 
 			m_Flp.DragEnter += Flp_DragEnter;

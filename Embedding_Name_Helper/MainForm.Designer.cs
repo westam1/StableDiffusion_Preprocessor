@@ -25,6 +25,7 @@
 		private void InitializeComponent() {
 			this.components = new System.ComponentModel.Container();
 			this.TlpMain = new System.Windows.Forms.TableLayoutPanel();
+			this.BtnEditTags = new System.Windows.Forms.Button();
 			this.FlpFiles = new System.Windows.Forms.FlowLayoutPanel();
 			this.TlpTemplate = new System.Windows.Forms.TableLayoutPanel();
 			this.LblFNameTemplate = new System.Windows.Forms.Label();
@@ -43,7 +44,8 @@
 			this.CmsiVisible = new System.Windows.Forms.ToolStripMenuItem();
 			this.CmsiShow = new System.Windows.Forms.ToolStripMenuItem();
 			this.CmsiHide = new System.Windows.Forms.ToolStripMenuItem();
-			this.BtnEditTags = new System.Windows.Forms.Button();
+			this.CmsiSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+			this.CmsiRemoveImg = new System.Windows.Forms.ToolStripMenuItem();
 			this.TlpMain.SuspendLayout();
 			this.FlpFiles.SuspendLayout();
 			this.TlpTemplate.SuspendLayout();
@@ -77,6 +79,22 @@
 			this.TlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this.TlpMain.Size = new System.Drawing.Size(1199, 694);
 			this.TlpMain.TabIndex = 0;
+			// 
+			// BtnEditTags
+			// 
+			this.BtnEditTags.BackColor = System.Drawing.Color.Black;
+			this.BtnEditTags.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.BtnEditTags.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.BtnEditTags.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+			this.BtnEditTags.ForeColor = System.Drawing.Color.White;
+			this.BtnEditTags.Location = new System.Drawing.Point(1, 129);
+			this.BtnEditTags.Margin = new System.Windows.Forms.Padding(1);
+			this.BtnEditTags.Name = "BtnEditTags";
+			this.BtnEditTags.Size = new System.Drawing.Size(148, 26);
+			this.BtnEditTags.TabIndex = 5;
+			this.BtnEditTags.Text = "Edit Tags";
+			this.BtnEditTags.UseVisualStyleBackColor = false;
+			this.BtnEditTags.Click += new System.EventHandler(this.BtnEditTags_Click);
 			// 
 			// FlpFiles
 			// 
@@ -235,29 +253,31 @@
             this.CmsiAssign,
             this.CmsiRemove,
             this.toolStripSeparator1,
-            this.CmsiVisible});
+            this.CmsiVisible,
+            this.CmsiSeparator2,
+            this.CmsiRemoveImg});
 			this.CmsTag.Name = "CmsTag";
-			this.CmsTag.Size = new System.Drawing.Size(164, 76);
+			this.CmsTag.Size = new System.Drawing.Size(183, 104);
 			this.CmsTag.Opening += new System.ComponentModel.CancelEventHandler(this.CmsTag_Opening);
 			// 
 			// CmsiAssign
 			// 
 			this.CmsiAssign.Name = "CmsiAssign";
-			this.CmsiAssign.Size = new System.Drawing.Size(163, 22);
+			this.CmsiAssign.Size = new System.Drawing.Size(182, 22);
 			this.CmsiAssign.Text = "Assign to All";
 			this.CmsiAssign.Click += new System.EventHandler(this.CmsiAssign_Click);
 			// 
 			// CmsiRemove
 			// 
 			this.CmsiRemove.Name = "CmsiRemove";
-			this.CmsiRemove.Size = new System.Drawing.Size(163, 22);
+			this.CmsiRemove.Size = new System.Drawing.Size(182, 22);
 			this.CmsiRemove.Text = "Remove from All";
 			this.CmsiRemove.Click += new System.EventHandler(this.CmsiRemove_Click);
 			// 
 			// toolStripSeparator1
 			// 
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(160, 6);
+			this.toolStripSeparator1.Size = new System.Drawing.Size(179, 6);
 			// 
 			// CmsiVisible
 			// 
@@ -265,7 +285,7 @@
             this.CmsiShow,
             this.CmsiHide});
 			this.CmsiVisible.Name = "CmsiVisible";
-			this.CmsiVisible.Size = new System.Drawing.Size(163, 22);
+			this.CmsiVisible.Size = new System.Drawing.Size(182, 22);
 			this.CmsiVisible.Text = "Visibility";
 			// 
 			// CmsiShow
@@ -282,21 +302,17 @@
 			this.CmsiHide.Text = "Hide";
 			this.CmsiHide.Click += new System.EventHandler(this.CmsiHide_Click);
 			// 
-			// BtnEditTags
+			// CmsiSeparator2
 			// 
-			this.BtnEditTags.BackColor = System.Drawing.Color.Black;
-			this.BtnEditTags.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.BtnEditTags.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.BtnEditTags.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-			this.BtnEditTags.ForeColor = System.Drawing.Color.White;
-			this.BtnEditTags.Location = new System.Drawing.Point(1, 129);
-			this.BtnEditTags.Margin = new System.Windows.Forms.Padding(1);
-			this.BtnEditTags.Name = "BtnEditTags";
-			this.BtnEditTags.Size = new System.Drawing.Size(148, 26);
-			this.BtnEditTags.TabIndex = 5;
-			this.BtnEditTags.Text = "Edit Tags";
-			this.BtnEditTags.UseVisualStyleBackColor = false;
-			this.BtnEditTags.Click += new System.EventHandler(this.BtnEditTags_Click);
+			this.CmsiSeparator2.Name = "CmsiSeparator2";
+			this.CmsiSeparator2.Size = new System.Drawing.Size(179, 6);
+			// 
+			// CmsiRemoveImg
+			// 
+			this.CmsiRemoveImg.Name = "CmsiRemoveImg";
+			this.CmsiRemoveImg.Size = new System.Drawing.Size(182, 22);
+			this.CmsiRemoveImg.Text = "Remove from Image";
+			this.CmsiRemoveImg.Click += new System.EventHandler(this.CmsiRemoveImg_Click);
 			// 
 			// MainForm
 			// 
@@ -340,5 +356,7 @@
 		private System.Windows.Forms.Button BtnShowAll;
 		private System.Windows.Forms.Button BtnRemoveAll;
 		private System.Windows.Forms.Button BtnEditTags;
+		private System.Windows.Forms.ToolStripSeparator CmsiSeparator2;
+		private System.Windows.Forms.ToolStripMenuItem CmsiRemoveImg;
 	}
 }
