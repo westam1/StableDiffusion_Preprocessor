@@ -1,0 +1,148 @@
+﻿<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProjectGuid>{01E593A6-285D-4392-8C23-B14C6F1B37D4}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <NoStandardLibraries>false</NoStandardLibraries>
+    <AssemblyName>WindowsApplication</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RootNamespace>StableDiffusion_Preprocessor</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include=".vs\Embedding_Name_Helper\DesignTimeBuild\.dtbcache.v2" />
+    <None Include=".vs\Embedding_Name_Helper\FileContentIndex\38179361-cc38-4ba3-bd69-bf99d99ba5fd.vsidx" />
+    <None Include=".vs\Embedding_Name_Helper\FileContentIndex\8722b88c-38a4-4027-bd83-26cf0cc136c2.vsidx" />
+    <None Include=".vs\Embedding_Name_Helper\FileContentIndex\a9668fbf-58a7-4548-966f-fda1b311b30b.vsidx" />
+    <None Include=".vs\Embedding_Name_Helper\FileContentIndex\e6eb9d35-fae7-4d0e-bbe0-8f37cf9bc244.vsidx" />
+    <None Include=".vs\Embedding_Name_Helper\FileContentIndex\read.lock" />
+    <None Include=".vs\Embedding_Name_Helper\v17\.futdcache.v2" />
+    <None Include=".vs\Embedding_Name_Helper\v17\.suo" />
+    <None Include=".vs\ProjectEvaluation\embedding_name_helper.metadata.v5.2" />
+    <None Include=".vs\ProjectEvaluation\embedding_name_helper.projects.v5.2" />
+    <None Include="Embedding_Name_Helper\bin\x64\Debug\net7.0-windows\Embedding_Name_Helper.deps.json" />
+    <None Include="Embedding_Name_Helper\bin\x64\Debug\net7.0-windows\Embedding_Name_Helper.runtimeconfig.json" />
+    <None Include="Embedding_Name_Helper\bin\x64\Debug\netcoreapp3.1\Embedding_Name_Helper.deps.json" />
+    <None Include="Embedding_Name_Helper\bin\x64\Debug\netcoreapp3.1\Embedding_Name_Helper.runtimeconfig.dev.json" />
+    <None Include="Embedding_Name_Helper\bin\x64\Debug\netcoreapp3.1\Embedding_Name_Helper.runtimeconfig.json" />
+    <None Include="Embedding_Name_Helper\Embedding_Name_Helper.csproj" />
+    <None Include="Embedding_Name_Helper\obj\Debug\netcoreapp3.1\Embedding_Name_Helper.AssemblyInfoInputs.cache" />
+    <None Include="Embedding_Name_Helper\obj\Debug\netcoreapp3.1\Embedding_Name_Helper.assets.cache" />
+    <None Include="Embedding_Name_Helper\obj\Debug\netcoreapp3.1\Embedding_Name_Helper.csproj.AssemblyReference.cache" />
+    <None Include="Embedding_Name_Helper\obj\Debug\netcoreapp3.1\Embedding_Name_Helper.designer.deps.json" />
+    <None Include="Embedding_Name_Helper\obj\Debug\netcoreapp3.1\Embedding_Name_Helper.designer.runtimeconfig.json" />
+    <None Include="Embedding_Name_Helper\obj\Debug\netcoreapp3.1\Embedding_Name_Helper.GeneratedMSBuildEditorConfig.editorconfig" />
+    <None Include="Embedding_Name_Helper\obj\Embedding_Name_Helper.csproj.nuget.dgspec.json" />
+    <None Include="Embedding_Name_Helper\obj\Embedding_Name_Helper.csproj.nuget.g.props" />
+    <None Include="Embedding_Name_Helper\obj\Embedding_Name_Helper.csproj.nuget.g.targets" />
+    <None Include="Embedding_Name_Helper\obj\project.assets.json" />
+    <None Include="Embedding_Name_Helper\obj\project.nuget.cache" />
+    <None Include="Embedding_Name_Helper\obj\x64\Debug\net7.0-windows\Embedding_Name_Helper.AssemblyInfoInputs.cache" />
+    <None Include="Embedding_Name_Helper\obj\x64\Debug\net7.0-windows\Embedding_Name_Helper.assets.cache" />
+    <None Include="Embedding_Name_Helper\obj\x64\Debug\net7.0-windows\Embedding_Name_Helper.csproj.AssemblyReference.cache" />
+    <None Include="Embedding_Name_Helper\obj\x64\Debug\net7.0-windows\Embedding_Name_Helper.csproj.BuildWithSkipAnalyzers" />
+    <None Include="Embedding_Name_Helper\obj\x64\Debug\net7.0-windows\Embedding_Name_Helper.csproj.CoreCompileInputs.cache" />
+    <None Include="Embedding_Name_Helper\obj\x64\Debug\net7.0-windows\Embedding_Name_Helper.csproj.GenerateResource.cache" />
+    <None Include="Embedding_Name_Helper\obj\x64\Debug\net7.0-windows\Embedding_Name_Helper.designer.deps.json" />
+    <None Include="Embedding_Name_Helper\obj\x64\Debug\net7.0-windows\Embedding_Name_Helper.designer.runtimeconfig.json" />
+    <None Include="Embedding_Name_Helper\obj\x64\Debug\net7.0-windows\Embedding_Name_Helper.GeneratedMSBuildEditorConfig.editorconfig" />
+    <None Include="Embedding_Name_Helper\obj\x64\Debug\net7.0-windows\Embedding_Name_Helper.genruntimeconfig.cache" />
+    <None Include="Embedding_Name_Helper\obj\x64\Debug\net7.0-windows\_IsIncrementalBuild" />
+    <None Include="Embedding_Name_Helper\obj\x64\Debug\netcoreapp3.1\Embedding_Name_Helper.AssemblyInfoInputs.cache" />
+    <None Include="Embedding_Name_Helper\obj\x64\Debug\netcoreapp3.1\Embedding_Name_Helper.assets.cache" />
+    <None Include="Embedding_Name_Helper\obj\x64\Debug\netcoreapp3.1\Embedding_Name_Helper.csproj.AssemblyReference.cache" />
+    <None Include="Embedding_Name_Helper\obj\x64\Debug\netcoreapp3.1\Embedding_Name_Helper.csproj.BuildWithSkipAnalyzers" />
+    <None Include="Embedding_Name_Helper\obj\x64\Debug\netcoreapp3.1\Embedding_Name_Helper.csproj.CoreCompileInputs.cache" />
+    <None Include="Embedding_Name_Helper\obj\x64\Debug\netcoreapp3.1\Embedding_Name_Helper.csproj.GenerateResource.cache" />
+    <None Include="Embedding_Name_Helper\obj\x64\Debug\netcoreapp3.1\Embedding_Name_Helper.designer.deps.json" />
+    <None Include="Embedding_Name_Helper\obj\x64\Debug\netcoreapp3.1\Embedding_Name_Helper.designer.runtimeconfig.json" />
+    <None Include="Embedding_Name_Helper\obj\x64\Debug\netcoreapp3.1\Embedding_Name_Helper.GeneratedMSBuildEditorConfig.editorconfig" />
+    <None Include="Embedding_Name_Helper\obj\x64\Debug\netcoreapp3.1\Embedding_Name_Helper.genruntimeconfig.cache" />
+    <None Include="Embedding_Name_Helper\obj\x64\Debug\netcoreapp3.1\_IsIncrementalBuild" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Embedding_Name_Helper\bin\x64\Debug\net7.0-windows\Embedding_Name_Helper.dll" />
+    <Content Include="Embedding_Name_Helper\bin\x64\Debug\net7.0-windows\Embedding_Name_Helper.exe" />
+    <Content Include="Embedding_Name_Helper\bin\x64\Debug\net7.0-windows\Embedding_Name_Helper.pdb" />
+    <Content Include="Embedding_Name_Helper\bin\x64\Debug\netcoreapp3.1\Embedding_Name_Helper.dll" />
+    <Content Include="Embedding_Name_Helper\bin\x64\Debug\netcoreapp3.1\Embedding_Name_Helper.exe" />
+    <Content Include="Embedding_Name_Helper\bin\x64\Debug\netcoreapp3.1\Embedding_Name_Helper.pdb" />
+    <Content Include="Embedding_Name_Helper\Embedding_Name_Helper.csproj.user" />
+    <Content Include="Embedding_Name_Helper\obj\x64\Debug\net7.0-windows\apphost.exe" />
+    <Content Include="Embedding_Name_Helper\obj\x64\Debug\net7.0-windows\Embedding_Name_Helper.csproj.FileListAbsolute.txt" />
+    <Content Include="Embedding_Name_Helper\obj\x64\Debug\net7.0-windows\Embedding_Name_Helper.dll" />
+    <Content Include="Embedding_Name_Helper\obj\x64\Debug\net7.0-windows\Embedding_Name_Helper.pdb" />
+    <Content Include="Embedding_Name_Helper\obj\x64\Debug\net7.0-windows\refint\Embedding_Name_Helper.dll" />
+    <Content Include="Embedding_Name_Helper\obj\x64\Debug\net7.0-windows\ref\Embedding_Name_Helper.dll" />
+    <Content Include="Embedding_Name_Helper\obj\x64\Debug\netcoreapp3.1\apphost.exe" />
+    <Content Include="Embedding_Name_Helper\obj\x64\Debug\netcoreapp3.1\Embedding_Name_Helper.csproj.FileListAbsolute.txt" />
+    <Content Include="Embedding_Name_Helper\obj\x64\Debug\netcoreapp3.1\Embedding_Name_Helper.dll" />
+    <Content Include="Embedding_Name_Helper\obj\x64\Debug\netcoreapp3.1\Embedding_Name_Helper.pdb" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Embedding_Name_Helper\FilePlateRef.cs" />
+    <Compile Include="Embedding_Name_Helper\MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Embedding_Name_Helper\MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Embedding_Name_Helper\obj\Debug\netcoreapp3.1\.NETCoreApp,Version=v3.1.AssemblyAttributes.cs" />
+    <Compile Include="Embedding_Name_Helper\obj\Debug\netcoreapp3.1\Embedding_Name_Helper.AssemblyInfo.cs" />
+    <Compile Include="Embedding_Name_Helper\obj\x64\Debug\net7.0-windows\.NETCoreApp,Version=v7.0.AssemblyAttributes.cs" />
+    <Compile Include="Embedding_Name_Helper\obj\x64\Debug\net7.0-windows\Embedding_Name_Helper.AssemblyInfo.cs" />
+    <Compile Include="Embedding_Name_Helper\obj\x64\Debug\netcoreapp3.1\.NETCoreApp,Version=v3.1.AssemblyAttributes.cs" />
+    <Compile Include="Embedding_Name_Helper\obj\x64\Debug\netcoreapp3.1\Embedding_Name_Helper.AssemblyInfo.cs" />
+    <Compile Include="Embedding_Name_Helper\Program.cs" />
+    <Compile Include="Embedding_Name_Helper\TagRef.cs" />
+    <Compile Include="Embedding_Name_Helper\Utils.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Embedding_Name_Helper\MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Embedding_Name_Helper\obj\x64\Debug\net7.0-windows\Embedding_Name_Helper.MainForm.resources" />
+    <EmbeddedResource Include="Embedding_Name_Helper\obj\x64\Debug\netcoreapp3.1\Embedding_Name_Helper.MainForm.resources" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include=".vs\Embedding_Name_Helper\FileContentIndex\merges\" />
+    <Folder Include="Embedding_Name_Helper\bin\Debug\netcoreapp3.1\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSHARP.Targets" />
+  <ProjectExtensions>
+    <VisualStudio AllowExistingFolder="true" />
+  </ProjectExtensions>
+</Project>
