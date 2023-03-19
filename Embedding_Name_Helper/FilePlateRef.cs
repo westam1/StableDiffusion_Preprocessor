@@ -36,7 +36,11 @@ namespace Embedding_Name_Helper {
 				Dock = DockStyle.Fill,
 				AutoScroll = true,
 				Margin = new Padding(0, 0, 0, 0),
+				AllowDrop = true,
 			};
+
+			m_Flp.DragEnter += Flp_DragEnter;
+			m_Flp.DragDrop += Flp_DragDrop;
 
 			foreach (RowStyle style in ToCopy.m_TLP.RowStyles) {
 				m_TLP.RowStyles.Add(new RowStyle(style.SizeType, style.Height));
@@ -53,8 +57,32 @@ namespace Embedding_Name_Helper {
 			m_TLP.SetRow(m_Flp, 2);
 		}
 
+		private void Flp_DragEnter(object sender, DragEventArgs e) {
+			if (e.Data.GetDataPresent(typeof(TagRef)) || e.Data.GetDataPresent(typeof(TagRef[]))) {
+				e.Effect = DragDropEffects.Copy;  
+			} else {
+				e.Effect = DragDropEffects.None; 
+			}
+		}
+		private void Flp_DragDrop(object sender, DragEventArgs e) {
+			if (e.Data.GetData(typeof(TagRef[])) is TagRef[] list) {
+				foreach (TagRef t in list) {
+					AddTags(t);
+					t.Uses++;
+					t.Selected = false;
+					t.CheckLabelStatus();
+				}
+			} else if (e.Data.GetData(typeof(TagRef)) is TagRef tr) {
+				AddTags(tr);
+				tr.Uses++;
+				tr.Selected = false;
+				tr.CheckLabelStatus();
+			}
+		}
+
 		public void AddTags(TagRef Tr) {
 			m_Flp.Controls.Add(Tr.MakeChildLabel(this));
+			
 		}
 		public void RemoveTags(Label Lbl) {
 			m_Flp.Controls.Remove(Lbl);

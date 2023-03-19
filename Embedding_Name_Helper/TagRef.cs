@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace Embedding_Name_Helper {
 	internal class TagRef {
-		private static Font TAG_FONT = new Font("MS Sans Seriff", 8.25f, FontStyle.Regular);
+		private static readonly Font TAG_FONT = new("MS Sans Seriff", 8.25f, FontStyle.Regular);
 		private const int MASTER_CHARS_LINE = 30, FILE_CHARS_LINE = 15;
 
 		public TagRef(string T, Label L) { Tag = T; Lbl = L; }
@@ -13,6 +13,10 @@ namespace Embedding_Name_Helper {
 		public void MakeMasterLabel() {
 			Lbl = MakeTagLabel(Utils.WordWrap(Tag, MASTER_CHARS_LINE));
 			Lbl.Tag = this;
+			Lbl.MouseDown += Lbl_MouseDown;
+			Lbl.MouseUp += Lbl_MouseUp;
+			Lbl.MouseMove += Lbl_MouseMove;
+			Lbl.Click -= Utils.Label_Clicked;
 		}
 		public Label MakeChildLabel(FilePlateRef Plate) {
 			Label l = MakeTagLabel(Utils.WordWrap(Tag, FILE_CHARS_LINE));
@@ -69,12 +73,34 @@ namespace Embedding_Name_Helper {
 			return lbl;
 		}
 
+		private void Lbl_MouseDown(object sender, MouseEventArgs e) {
+			MousePos = e.Location;
+		}
+		private void Lbl_MouseUp(object sender, MouseEventArgs e) {
+			if (MousePos != Point.Empty) {
+				Selected = !Selected;
+
+				CheckLabelStatus();
+			}
+			MousePos = Point.Empty;
+		}
+		private void Lbl_MouseMove(object sender, MouseEventArgs e) {
+			if (MousePos != Point.Empty && (Math.Abs(e.X - MousePos.X) > 100 || Math.Abs(e.Y - MousePos.Y) > 100)) {
+				if (Utils.Parent.GetSelectedTags() is TagRef[] list) {
+					Lbl.DoDragDrop(list, DragDropEffects.Copy);
+				} else {
+					Lbl.DoDragDrop(this, DragDropEffects.Copy);
+				}				
+				MousePos = Point.Empty;
+			}
+		}
+
 		public string Tag { get; set; } = null;
 		public Label Lbl { get; set; } = null;
 		public bool Selected { get; set; } = false;
 		public int Uses { get; set; } = 0;
 		public bool Visible { get; set; } = true;
-
+		private Point MousePos { get; set; } = Point.Empty;
 		internal List<(Label L, FilePlateRef P)> Children { get; set; } = new();
 
 		public static bool operator == (TagRef lhs, TagRef rhs) {

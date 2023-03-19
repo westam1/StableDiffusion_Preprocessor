@@ -34,6 +34,8 @@
 			this.FlpTags = new System.Windows.Forms.FlowLayoutPanel();
 			this.BtnSelectFolder = new System.Windows.Forms.Button();
 			this.BtnCommit = new System.Windows.Forms.Button();
+			this.BtnShowAll = new System.Windows.Forms.Button();
+			this.BtnRemoveAll = new System.Windows.Forms.Button();
 			this.CmsTag = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.CmsiAssign = new System.Windows.Forms.ToolStripMenuItem();
 			this.CmsiRemove = new System.Windows.Forms.ToolStripMenuItem();
@@ -41,8 +43,6 @@
 			this.CmsiVisible = new System.Windows.Forms.ToolStripMenuItem();
 			this.CmsiShow = new System.Windows.Forms.ToolStripMenuItem();
 			this.CmsiHide = new System.Windows.Forms.ToolStripMenuItem();
-			this.BtnShowAll = new System.Windows.Forms.Button();
-			this.BtnRemoveAll = new System.Windows.Forms.Button();
 			this.TlpMain.SuspendLayout();
 			this.FlpFiles.SuspendLayout();
 			this.TlpTemplate.SuspendLayout();
@@ -130,6 +130,7 @@
 			// 
 			// FlpTemplate
 			// 
+			this.FlpTemplate.AllowDrop = true;
 			this.FlpTemplate.BackColor = System.Drawing.Color.DimGray;
 			this.FlpTemplate.Controls.Add(this.LblTagTemplate);
 			this.FlpTemplate.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -194,6 +195,38 @@
 			this.BtnCommit.Text = "Commit Tag Changes";
 			this.BtnCommit.UseVisualStyleBackColor = false;
 			// 
+			// BtnShowAll
+			// 
+			this.BtnShowAll.BackColor = System.Drawing.Color.Black;
+			this.BtnShowAll.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.BtnShowAll.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.BtnShowAll.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+			this.BtnShowAll.ForeColor = System.Drawing.Color.White;
+			this.BtnShowAll.Location = new System.Drawing.Point(1, 101);
+			this.BtnShowAll.Margin = new System.Windows.Forms.Padding(1);
+			this.BtnShowAll.Name = "BtnShowAll";
+			this.BtnShowAll.Size = new System.Drawing.Size(148, 26);
+			this.BtnShowAll.TabIndex = 3;
+			this.BtnShowAll.Text = "Show All Tags";
+			this.BtnShowAll.UseVisualStyleBackColor = false;
+			this.BtnShowAll.Click += new System.EventHandler(this.BtnShowAll_Click);
+			// 
+			// BtnRemoveAll
+			// 
+			this.BtnRemoveAll.BackColor = System.Drawing.Color.Black;
+			this.BtnRemoveAll.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.BtnRemoveAll.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.BtnRemoveAll.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+			this.BtnRemoveAll.ForeColor = System.Drawing.Color.White;
+			this.BtnRemoveAll.Location = new System.Drawing.Point(151, 101);
+			this.BtnRemoveAll.Margin = new System.Windows.Forms.Padding(1);
+			this.BtnRemoveAll.Name = "BtnRemoveAll";
+			this.BtnRemoveAll.Size = new System.Drawing.Size(148, 26);
+			this.BtnRemoveAll.TabIndex = 4;
+			this.BtnRemoveAll.Text = "Hide All Tags";
+			this.BtnRemoveAll.UseVisualStyleBackColor = false;
+			this.BtnRemoveAll.Click += new System.EventHandler(this.BtnRemoveAll_Click);
+			// 
 			// CmsTag
 			// 
 			this.CmsTag.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -246,38 +279,6 @@
 			this.CmsiHide.Size = new System.Drawing.Size(103, 22);
 			this.CmsiHide.Text = "Hide";
 			this.CmsiHide.Click += new System.EventHandler(this.CmsiHide_Click);
-			// 
-			// BtnShowAll
-			// 
-			this.BtnShowAll.BackColor = System.Drawing.Color.Black;
-			this.BtnShowAll.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.BtnShowAll.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.BtnShowAll.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-			this.BtnShowAll.ForeColor = System.Drawing.Color.White;
-			this.BtnShowAll.Location = new System.Drawing.Point(1, 101);
-			this.BtnShowAll.Margin = new System.Windows.Forms.Padding(1);
-			this.BtnShowAll.Name = "BtnShowAll";
-			this.BtnShowAll.Size = new System.Drawing.Size(148, 26);
-			this.BtnShowAll.TabIndex = 3;
-			this.BtnShowAll.Text = "Show All Tags";
-			this.BtnShowAll.UseVisualStyleBackColor = false;
-			this.BtnShowAll.Click += new System.EventHandler(this.BtnShowAll_Click);
-			// 
-			// BtnRemoveAll
-			// 
-			this.BtnRemoveAll.BackColor = System.Drawing.Color.Black;
-			this.BtnRemoveAll.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.BtnRemoveAll.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.BtnRemoveAll.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-			this.BtnRemoveAll.ForeColor = System.Drawing.Color.White;
-			this.BtnRemoveAll.Location = new System.Drawing.Point(151, 101);
-			this.BtnRemoveAll.Margin = new System.Windows.Forms.Padding(1);
-			this.BtnRemoveAll.Name = "BtnRemoveAll";
-			this.BtnRemoveAll.Size = new System.Drawing.Size(148, 26);
-			this.BtnRemoveAll.TabIndex = 4;
-			this.BtnRemoveAll.Text = "Hide All Tags";
-			this.BtnRemoveAll.UseVisualStyleBackColor = false;
-			this.BtnRemoveAll.Click += new System.EventHandler(this.BtnRemoveAll_Click);
 			// 
 			// MainForm
 			// 

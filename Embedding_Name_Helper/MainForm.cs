@@ -11,12 +11,15 @@ namespace Embedding_Name_Helper {
 		private readonly List<TagRef> m_MasterTags;
 		private readonly FilePlateRef m_Master;
 
+		//TODO: Need a tag ordering solution to stabilize position
+
 		public MainForm() {
 			InitializeComponent();
 			m_Plates = new List<FilePlateRef>();
 			m_MasterTags = new List<TagRef>();
 			m_Master = new FilePlateRef(TlpTemplate, LblFNameTemplate, PbxTemplate, FlpTemplate);
 			CacheTextMeasure = FlpTags.CreateGraphics();
+			this.DoubleBuffered = true;
 
 			CmsiHide.Tag = CmsTag;
 			CmsiShow.Tag = CmsTag;
@@ -39,6 +42,20 @@ namespace Embedding_Name_Helper {
 				return t;
 			}
 		}
+		internal TagRef[] GetSelectedTags() {
+			List<TagRef> tags = new();
+
+			foreach(TagRef tr in m_MasterTags) {
+				if (tr.Selected) {
+					tags.Add(tr);
+				}
+			}
+
+			if (tags.Count > 0) {
+				return tags.ToArray();
+			}
+			return null;
+		}
 		private void AddToAllPlates(TagRef Tag) {
 			Tag.Uses = OpenFileCount;
 
@@ -47,6 +64,8 @@ namespace Embedding_Name_Helper {
 					plate.AddTags(Tag);
 				}
 			}
+			Tag.Selected = false;
+			Tag.CheckLabelStatus();
 		}
 		private void RemoveFromAllPlates(TagRef Tag) {
 			Tag.Uses = 0;
@@ -57,6 +76,8 @@ namespace Embedding_Name_Helper {
 					Tag.Children.Remove((l, plate));				// "" + O(N)
 				}
 			}
+			Tag.Selected = false;
+			Tag.CheckLabelStatus();
 		}
 		
 		private void CheckTagColors() {
@@ -93,6 +114,7 @@ namespace Embedding_Name_Helper {
 		}
 		private void LoadFolder(string Folder) {
 			if (Folder == null || !Directory.Exists(Folder)) { return; }
+
 			FlpFiles.Controls.Clear();
 			m_MasterTags.Clear();
 			FlpTags.Controls.Clear();
@@ -112,20 +134,32 @@ namespace Embedding_Name_Helper {
 				OpenFileCount++;
 				m_Plates.Add(plate);
 				FlpFiles.Controls.Add(plate.Reference);
-				Application.DoEvents();
+				Application.DoEvents();						// Note: Looks better to see things popping in than to see things frozen by layout suspend. Probably add progress bar.
 			}
 
 			CheckTagColors();
 		}
 
 		private void BtnShowAll_Click(object sender, EventArgs e) {
+			foreach (FilePlateRef plate in m_Plates) {
+				plate.m_Flp.SuspendLayout();
+			}
 			foreach (TagRef tag in m_MasterTags) {
 				tag.SetVisibility(true);
 			}
+			foreach (FilePlateRef plate in m_Plates) {
+				plate.m_Flp.ResumeLayout();
+			}
 		}
 		private void BtnRemoveAll_Click(object sender, EventArgs e) {
+			foreach (FilePlateRef plate in m_Plates) {
+				plate.m_Flp.SuspendLayout();
+			}
 			foreach (TagRef tag in m_MasterTags) {
 				tag.SetVisibility(false);
+			}
+			foreach (FilePlateRef plate in m_Plates) {
+				plate.m_Flp.ResumeLayout();
 			}
 		}
 		private void BtnSelectFolder_Click(object sender, EventArgs e) {
