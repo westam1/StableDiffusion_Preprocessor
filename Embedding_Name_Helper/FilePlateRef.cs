@@ -2,7 +2,7 @@
 using System.Windows.Forms;
 
 namespace Embedding_Name_Helper {
-	internal class FilePlateRef {
+	public class FilePlateRef {
 		public TableLayoutPanel m_TLP;
 		public Label m_Lbl;
 		public PictureBox m_Pbx;
@@ -81,8 +81,9 @@ namespace Embedding_Name_Helper {
 		}
 
 		public void AddTags(TagRef Tr) {
-			m_Flp.Controls.Add(Tr.MakeChildLabel(this));
-			
+			Label lbl = Tr.MakeChildLabel(this);
+			m_Flp.Controls.Add(lbl);
+			m_Flp.Controls.SetChildIndex(lbl, TagRef.ToListPosition(Tr.Index));
 		}
 		public void RemoveTags(Label Lbl) {
 			m_Flp.Controls.Remove(Lbl);

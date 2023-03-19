@@ -43,6 +43,7 @@
 			this.CmsiVisible = new System.Windows.Forms.ToolStripMenuItem();
 			this.CmsiShow = new System.Windows.Forms.ToolStripMenuItem();
 			this.CmsiHide = new System.Windows.Forms.ToolStripMenuItem();
+			this.BtnEditTags = new System.Windows.Forms.Button();
 			this.TlpMain.SuspendLayout();
 			this.FlpFiles.SuspendLayout();
 			this.TlpTemplate.SuspendLayout();
@@ -57,6 +58,7 @@
 			this.TlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 150F));
 			this.TlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 150F));
 			this.TlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.TlpMain.Controls.Add(this.BtnEditTags, 0, 3);
 			this.TlpMain.Controls.Add(this.FlpFiles, 2, 0);
 			this.TlpMain.Controls.Add(this.FlpTags, 0, 5);
 			this.TlpMain.Controls.Add(this.BtnSelectFolder, 0, 0);
@@ -70,7 +72,7 @@
 			this.TlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
 			this.TlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
 			this.TlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
-			this.TlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+			this.TlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
 			this.TlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
 			this.TlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this.TlpMain.Size = new System.Drawing.Size(1199, 694);
@@ -158,10 +160,10 @@
 			this.FlpTags.BackColor = System.Drawing.Color.DimGray;
 			this.TlpMain.SetColumnSpan(this.FlpTags, 2);
 			this.FlpTags.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.FlpTags.Location = new System.Drawing.Point(3, 181);
+			this.FlpTags.Location = new System.Drawing.Point(3, 184);
 			this.FlpTags.Name = "FlpTags";
 			this.FlpTags.Padding = new System.Windows.Forms.Padding(1);
-			this.FlpTags.Size = new System.Drawing.Size(294, 510);
+			this.FlpTags.Size = new System.Drawing.Size(294, 507);
 			this.FlpTags.TabIndex = 1;
 			// 
 			// BtnSelectFolder
@@ -280,6 +282,22 @@
 			this.CmsiHide.Text = "Hide";
 			this.CmsiHide.Click += new System.EventHandler(this.CmsiHide_Click);
 			// 
+			// BtnEditTags
+			// 
+			this.BtnEditTags.BackColor = System.Drawing.Color.Black;
+			this.BtnEditTags.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.BtnEditTags.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.BtnEditTags.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+			this.BtnEditTags.ForeColor = System.Drawing.Color.White;
+			this.BtnEditTags.Location = new System.Drawing.Point(1, 129);
+			this.BtnEditTags.Margin = new System.Windows.Forms.Padding(1);
+			this.BtnEditTags.Name = "BtnEditTags";
+			this.BtnEditTags.Size = new System.Drawing.Size(148, 26);
+			this.BtnEditTags.TabIndex = 5;
+			this.BtnEditTags.Text = "Edit Tags";
+			this.BtnEditTags.UseVisualStyleBackColor = false;
+			this.BtnEditTags.Click += new System.EventHandler(this.BtnEditTags_Click);
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -321,5 +339,6 @@
 		internal System.Windows.Forms.ContextMenuStrip CmsTag;
 		private System.Windows.Forms.Button BtnShowAll;
 		private System.Windows.Forms.Button BtnRemoveAll;
+		private System.Windows.Forms.Button BtnEditTags;
 	}
 }

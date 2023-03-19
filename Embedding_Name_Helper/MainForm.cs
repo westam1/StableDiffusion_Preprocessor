@@ -10,6 +10,8 @@ namespace Embedding_Name_Helper {
 		private readonly List<FilePlateRef> m_Plates;
 		private readonly List<TagRef> m_MasterTags;
 		private readonly FilePlateRef m_Master;
+		private TagOrderForm m_TagOrderForm;
+		private int m_TagIndex;
 
 		//TODO: Need a tag ordering solution to stabilize position
 
@@ -31,6 +33,7 @@ namespace Embedding_Name_Helper {
 			if (!m_MasterTags.Contains(toAdd)) {
 				toAdd.Uses = 1;
 				toAdd.MakeMasterLabel();
+				toAdd.Index = m_TagIndex++;
 				m_MasterTags.Add(toAdd);
 
 				FlpTags.Controls.Add(toAdd.Lbl);
@@ -55,6 +58,13 @@ namespace Embedding_Name_Helper {
 				return tags.ToArray();
 			}
 			return null;
+		}
+		internal void SortAllPlates() {
+			FlpFiles.SuspendLayout();	// TODO: This is really slow to be called on every change.
+			foreach (TagRef tr in m_MasterTags) {
+				tr.SortTags();
+			}
+			FlpFiles.ResumeLayout();
 		}
 		private void AddToAllPlates(TagRef Tag) {
 			Tag.Uses = OpenFileCount;
@@ -118,7 +128,7 @@ namespace Embedding_Name_Helper {
 			FlpFiles.Controls.Clear();
 			m_MasterTags.Clear();
 			FlpTags.Controls.Clear();
-			OpenFileCount = 0;
+			OpenFileCount = m_TagIndex = 0;
 
 			foreach (string fName in Directory.GetFiles(Folder, "*.png")) {
 				FilePlateRef plate = new(m_Master) {
@@ -162,6 +172,9 @@ namespace Embedding_Name_Helper {
 				plate.m_Flp.ResumeLayout();
 			}
 		}
+		private void BtnEditTags_Click(object sender, EventArgs e) {
+			m_TagOrderForm = (TagOrderForm)Utils.SafeFormShow(this, m_TagOrderForm, new object[] { m_MasterTags });
+		}
 		private void BtnSelectFolder_Click(object sender, EventArgs e) {
 			using (FolderBrowserDialog fbd = new FolderBrowserDialog()) {
 				BtnSelectFolder.Text = "(click to select folder)";
@@ -202,6 +215,8 @@ namespace Embedding_Name_Helper {
 				tr.SetVisibility(false);
 			}
 		}
+
+		public int TagCount { get { return m_MasterTags.Count; } }
 
 		public static int OpenFileCount { get; set; } = 0;
 		public static Graphics CacheTextMeasure { get; private set; } = null;

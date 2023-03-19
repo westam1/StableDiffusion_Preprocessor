@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Windows.Forms;
 
 namespace Embedding_Name_Helper {
-	internal class TagRef {
+	public class TagRef : IComparable {
 		private static readonly Font TAG_FONT = new("MS Sans Seriff", 8.25f, FontStyle.Regular);
 		private const int MASTER_CHARS_LINE = 30, FILE_CHARS_LINE = 15;
 
@@ -45,6 +45,13 @@ namespace Embedding_Name_Helper {
 				Utils.SetLabelColor(Selected, Uses, L);
 			}
 		}
+		public void SortTags() {
+			foreach ((Label L, FilePlateRef P) in Children) {
+				if (P.m_Flp.Controls.GetChildIndex(L) != ToListPosition(Index)) {
+					P.m_Flp.Controls.SetChildIndex(L, ToListPosition(Index));
+				}
+			}
+		}
 		
 		public override bool Equals(object obj) {
 			if (obj is TagRef tr) {
@@ -72,6 +79,9 @@ namespace Embedding_Name_Helper {
 			lbl.Click += Utils.Label_Clicked;
 			return lbl;
 		}
+		public static int ToListPosition(int TagIndex) {
+			return TagIndex < 0 ? (Utils.Parent.TagCount * 2) + TagIndex : TagIndex;
+		}
 
 		private void Lbl_MouseDown(object sender, MouseEventArgs e) {
 			MousePos = e.Location;
@@ -95,7 +105,15 @@ namespace Embedding_Name_Helper {
 			}
 		}
 
+		public int CompareTo(object obj) {
+			if (obj is TagRef t) {
+				return ToListPosition(Index) - ToListPosition(t.Index);
+			}
+			return -1;
+		}
+
 		public string Tag { get; set; } = null;
+		public int Index { get; set; } = 0;
 		public Label Lbl { get; set; } = null;
 		public bool Selected { get; set; } = false;
 		public int Uses { get; set; } = 0;

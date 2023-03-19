@@ -69,6 +69,56 @@ namespace Embedding_Name_Helper {
 			}
 		}
 
+		//
+		// Summary:
+		//     Checks a form to see if it is currently valid (Open).
+		//
+		// Parameters:
+		//   Target:
+		//     The form to check for validity.
+		//
+		// Returns:
+		//     Returns true if a form exists, and is currently not scheduled for garbage collection.
+		public static bool FormValid(Form Target) {
+			return Target != null && !Target.IsDisposed;
+		}
+		//
+		// Summary:
+		//     Creates a new form of the specified type and displays it, using the invokeForm
+		//     as a target to join the UI thread if necessary.
+		//
+		// Parameters:
+		//   InvokeForm:
+		//     A Form known to be created on the UI thread. This can be null, but if so, will
+		//     prevent joining of the UI thread.
+		//
+		//   ToCreate:
+		//     The form to be created.
+		//
+		//   Prm:
+		//     An optional list of parameters for the new form's constructor.
+		//
+		// Type parameters:
+		//   T:
+		//     The type of object ToCreate.
+		public static Form SafeFormShow<T>(Form InvokeForm, T ToCreate, params object[] Prm) where T : Form {
+			if (FormValid(InvokeForm) && InvokeForm.InvokeRequired) {
+				InvokeForm.BeginInvoke((MethodInvoker)delegate {
+					SafeFormShow(InvokeForm, ToCreate, Prm);
+				});
+			} else {
+				if (!FormValid(ToCreate)) {
+					ToCreate = (T)Activator.CreateInstance(typeof(T), Prm);
+					ToCreate.Show();
+				}
+
+				ToCreate.BringToFront();
+				ToCreate.Update();
+			}
+
+			return ToCreate;
+		}
+
 		public static MainForm Parent { get; set; } = null;
 	}
 }
