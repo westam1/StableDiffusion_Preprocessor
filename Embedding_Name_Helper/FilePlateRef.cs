@@ -40,6 +40,9 @@ namespace Embedding_Name_Helper {
 				Tag = this,
 			};
 
+			m_TLP.SuspendLayout();
+			m_Flp.SuspendLayout();
+
 			m_Flp.DragEnter += Flp_DragEnter;
 			m_Flp.DragDrop += Flp_DragDrop;
 
@@ -57,6 +60,10 @@ namespace Embedding_Name_Helper {
 			m_TLP.SetRow(m_Pbx, 1);
 			m_TLP.SetRow(m_Flp, 2);
 		}
+		public void Finalize_Load() {
+			m_TLP.ResumeLayout();
+			m_Flp.ResumeLayout();
+		}
 
 		private void Flp_DragEnter(object sender, DragEventArgs e) {
 			if (e.Data.GetDataPresent(typeof(TagRef)) || e.Data.GetDataPresent(typeof(TagRef[]))) {
@@ -66,18 +73,22 @@ namespace Embedding_Name_Helper {
 			}
 		}
 		private void Flp_DragDrop(object sender, DragEventArgs e) {
-			if (e.Data.GetData(typeof(TagRef[])) is TagRef[] list) {
+			if (e.Data.GetData(typeof(TagRef[])) is TagRef[] list) {	// Note: Could factor the add if Uses is cleaned up a bit on load
 				foreach (TagRef t in list) {
-					AddTags(t);
-					t.Uses++;
-					t.Selected = false;
-					t.CheckLabelStatus();
+					if (t.FindChildInPlate(this) == null) {
+						AddTags(t);
+						t.Uses++;
+						t.Selected = false;
+						t.CheckLabelStatus();
+					}
 				}
 			} else if (e.Data.GetData(typeof(TagRef)) is TagRef tr) {
-				AddTags(tr);
-				tr.Uses++;
-				tr.Selected = false;
-				tr.CheckLabelStatus();
+				if (tr.FindChildInPlate(this) == null) {
+					AddTags(tr);
+					tr.Uses++;
+					tr.Selected = false;
+					tr.CheckLabelStatus();
+				}
 			}
 		}
 

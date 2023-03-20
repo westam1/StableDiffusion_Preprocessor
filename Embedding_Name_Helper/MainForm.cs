@@ -13,7 +13,6 @@ namespace Embedding_Name_Helper {
 		private TagOrderForm m_TagOrderForm;
 		private int m_TagIndex;
 
-		//TODO: Don't allow duplicate tags by drag (also check add all doesn't duplicate)
 		//TODO: See if there's a master block for all paint operations in winforms. individual controls still paint and that's the slowdown(probably)
 
 		public MainForm() {
@@ -34,14 +33,22 @@ namespace Embedding_Name_Helper {
 			FlpTags.SuspendLayout();
 			foreach (FilePlateRef plate in m_Plates) {
 				plate.m_Flp.SuspendLayout();
+				foreach (Control ctl in plate.m_Flp.Controls) {
+					ctl.SuspendLayout();
+				}
 			}
+			SuspendLayout();
 		}
 		private void StopBigUpdate() {
 			FlpFiles.ResumeLayout();
 			FlpTags.ResumeLayout();
 			foreach (FilePlateRef plate in m_Plates) {
 				plate.m_Flp.ResumeLayout();
+				foreach (Control ctl in plate.m_Flp.Controls) {
+					ctl.ResumeLayout();
+				}
 			}
+			ResumeLayout();
 		}
 		private TagRef AddMasterTag(string Input) {
 			TagRef toAdd = new(Input, null);
@@ -177,9 +184,11 @@ namespace Embedding_Name_Helper {
 				OpenFileCount++;
 				m_Plates.Add(plate);
 				FlpFiles.Controls.Add(plate.Reference);
+				plate.Finalize_Load();
 				Application.DoEvents();						// Note: Looks better to see things popping in than to see things frozen by layout suspend. Probably add progress bar.
 			}
 
+			StopBigUpdate();
 			CheckTagColors();
 		}
 
@@ -250,6 +259,7 @@ namespace Embedding_Name_Helper {
 
 		private void CmsTag_Opening(object sender, System.ComponentModel.CancelEventArgs e) {
 			if (sender is ContextMenuStrip cms && cms.SourceControl is Label l && l.Tag is TagRef tr) {
+				if (!tr.Selected) { tr.Selected = true; tr.CheckLabelStatus(); }
 				CmsiShow.Checked = tr.Visible;
 				CmsiHide.Checked = !tr.Visible;
 
