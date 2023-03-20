@@ -38,6 +38,8 @@
 			this.BtnShowAll = new System.Windows.Forms.Button();
 			this.BtnRemoveAll = new System.Windows.Forms.Button();
 			this.label1 = new System.Windows.Forms.Label();
+			this.BtnAddTag = new System.Windows.Forms.Button();
+			this.TbxTag = new System.Windows.Forms.TextBox();
 			this.CmsTag = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.CmsiAssign = new System.Windows.Forms.ToolStripMenuItem();
 			this.CmsiRemove = new System.Windows.Forms.ToolStripMenuItem();
@@ -47,8 +49,6 @@
 			this.CmsiHide = new System.Windows.Forms.ToolStripMenuItem();
 			this.CmsiSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.CmsiRemoveImg = new System.Windows.Forms.ToolStripMenuItem();
-			this.BtnAddTag = new System.Windows.Forms.Button();
-			this.TbxTag = new System.Windows.Forms.TextBox();
 			this.TlpMain.SuspendLayout();
 			this.FlpFiles.SuspendLayout();
 			this.TlpTemplate.SuspendLayout();
@@ -273,6 +273,33 @@
     "or additional options\r\n-Edit tags to change display order\r\n-Use the interface at" +
     " the bottom to add tags";
 			// 
+			// BtnAddTag
+			// 
+			this.BtnAddTag.BackColor = System.Drawing.Color.Black;
+			this.BtnAddTag.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.BtnAddTag.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.BtnAddTag.ForeColor = System.Drawing.Color.White;
+			this.BtnAddTag.Location = new System.Drawing.Point(201, 667);
+			this.BtnAddTag.Margin = new System.Windows.Forms.Padding(1);
+			this.BtnAddTag.Name = "BtnAddTag";
+			this.BtnAddTag.Size = new System.Drawing.Size(98, 26);
+			this.BtnAddTag.TabIndex = 7;
+			this.BtnAddTag.Text = "Add Tag";
+			this.BtnAddTag.UseVisualStyleBackColor = false;
+			this.BtnAddTag.Click += new System.EventHandler(this.BtnAddTag_Click);
+			// 
+			// TbxTag
+			// 
+			this.TlpMain.SetColumnSpan(this.TbxTag, 2);
+			this.TbxTag.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.TbxTag.Location = new System.Drawing.Point(2, 667);
+			this.TbxTag.Margin = new System.Windows.Forms.Padding(2, 1, 1, 2);
+			this.TbxTag.Multiline = true;
+			this.TbxTag.Name = "TbxTag";
+			this.TbxTag.Size = new System.Drawing.Size(197, 25);
+			this.TbxTag.TabIndex = 8;
+			this.TbxTag.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TbxTag_KeyDown);
+			// 
 			// CmsTag
 			// 
 			this.CmsTag.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -339,32 +366,6 @@
 			this.CmsiRemoveImg.Size = new System.Drawing.Size(182, 22);
 			this.CmsiRemoveImg.Text = "Remove from Image";
 			this.CmsiRemoveImg.Click += new System.EventHandler(this.CmsiRemoveImg_Click);
-			// 
-			// BtnAddTag
-			// 
-			this.BtnAddTag.BackColor = System.Drawing.Color.Black;
-			this.BtnAddTag.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.BtnAddTag.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.BtnAddTag.ForeColor = System.Drawing.Color.White;
-			this.BtnAddTag.Location = new System.Drawing.Point(201, 667);
-			this.BtnAddTag.Margin = new System.Windows.Forms.Padding(1);
-			this.BtnAddTag.Name = "BtnAddTag";
-			this.BtnAddTag.Size = new System.Drawing.Size(98, 26);
-			this.BtnAddTag.TabIndex = 7;
-			this.BtnAddTag.Text = "Add Tag";
-			this.BtnAddTag.UseVisualStyleBackColor = false;
-			this.BtnAddTag.Click += new System.EventHandler(this.BtnAddTag_Click);
-			// 
-			// TbxTag
-			// 
-			this.TlpMain.SetColumnSpan(this.TbxTag, 2);
-			this.TbxTag.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.TbxTag.Location = new System.Drawing.Point(2, 667);
-			this.TbxTag.Margin = new System.Windows.Forms.Padding(2, 1, 1, 2);
-			this.TbxTag.Multiline = true;
-			this.TbxTag.Name = "TbxTag";
-			this.TbxTag.Size = new System.Drawing.Size(197, 25);
-			this.TbxTag.TabIndex = 8;
 			// 
 			// MainForm
 			// 

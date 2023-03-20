@@ -13,6 +13,9 @@ namespace Embedding_Name_Helper {
 		private TagOrderForm m_TagOrderForm;
 		private int m_TagIndex;
 
+		//TODO: Don't allow duplicate tags by drag (also check add all doesn't duplicate)
+		//TODO: See if there's a master block for all paint operations in winforms. individual controls still paint and that's the slowdown(probably)
+
 		public MainForm() {
 			InitializeComponent();
 			m_Plates = new List<FilePlateRef>();
@@ -26,6 +29,20 @@ namespace Embedding_Name_Helper {
 			Utils.Parent = this;
 		}
 
+		private void StartBigUpdate() {
+			FlpFiles.SuspendLayout();
+			FlpTags.SuspendLayout();
+			foreach (FilePlateRef plate in m_Plates) {
+				plate.m_Flp.SuspendLayout();
+			}
+		}
+		private void StopBigUpdate() {
+			FlpFiles.ResumeLayout();
+			FlpTags.ResumeLayout();
+			foreach (FilePlateRef plate in m_Plates) {
+				plate.m_Flp.ResumeLayout();
+			}
+		}
 		private TagRef AddMasterTag(string Input) {
 			TagRef toAdd = new(Input, null);
 			if (!m_MasterTags.Contains(toAdd)) {
@@ -57,6 +74,17 @@ namespace Embedding_Name_Helper {
 			}
 			return null;
 		}
+		private void VisChangeAllSelected(bool State) {
+			StartBigUpdate();
+			foreach (TagRef tr in m_MasterTags) {
+				if (tr.Selected) {
+					tr.SetVisibility(State);
+					tr.Selected = false;
+					tr.CheckLabelStatus();
+				}
+			}
+			StopBigUpdate();
+		}
 		internal void SortAllPlates() {
 			FlpFiles.SuspendLayout();	// TODO: This is really slow to be called on every change.
 			foreach (TagRef tr in m_MasterTags) {
@@ -64,28 +92,35 @@ namespace Embedding_Name_Helper {
 			}
 			FlpFiles.ResumeLayout();
 		}
-		private void AddToAllPlates(TagRef Tag) {
-			Tag.Uses = OpenFileCount;
+		private void TagChangeAllSelected(bool Remove) {
+			StartBigUpdate();
+			foreach (TagRef tr in m_MasterTags) {
+				if (tr.Selected) { 
+					tr.Uses = (Remove) ? 0 : OpenFileCount;
 
-			foreach(FilePlateRef plate in m_Plates) {				// Note: O(N^2)
-				if (Tag.FindChildInPlate(plate) == null) {			// ""
-					plate.AddTags(Tag);
+					foreach(FilePlateRef plate in m_Plates) {
+						if (!Remove) {
+							AddTagToPlate(plate, tr);
+						} else {
+							RemoveTagFromPlate(plate, tr);
+						}
+					}
+					tr.Selected = false;
+					tr.CheckLabelStatus();
 				}
 			}
-			Tag.Selected = false;
-			Tag.CheckLabelStatus();
+			StopBigUpdate();
 		}
-		private void RemoveFromAllPlates(TagRef Tag) {
-			Tag.Uses = 0;
-
-			foreach (FilePlateRef plate in m_Plates) {				// Note: O(N^2)
-				if (Tag.FindChildInPlate(plate) is Label l) {		// ""
-					plate.RemoveTags(l);
-					Tag.Children.Remove((l, plate));				// "" + O(N)
-				}
+		private static void AddTagToPlate(FilePlateRef Plate, TagRef Tag) {
+			if (Tag.FindChildInPlate(Plate) == null) {
+				Plate.AddTags(Tag);
 			}
-			Tag.Selected = false;
-			Tag.CheckLabelStatus();
+		}
+		private void RemoveTagFromPlate(FilePlateRef Plate, TagRef Tag) {
+			if (Tag.FindChildInPlate(Plate) is Label l) {
+				Plate.RemoveTags(l);
+				Tag.Children.Remove((l, Plate));
+			}
 		}
 		
 		private void CheckTagColors() {
@@ -222,23 +257,23 @@ namespace Embedding_Name_Helper {
 			}
 		}
 		private void CmsiAssign_Click(object sender, EventArgs e) {
-			if (sender is ToolStripMenuItem item && item.Owner is ContextMenuStrip cms && cms.SourceControl is Label l && l.Tag is TagRef tr) {
-				AddToAllPlates(tr);
+			if (sender is ToolStripMenuItem item && item.Owner is ContextMenuStrip cms && cms.SourceControl is Label l && l.Tag is TagRef) {
+				TagChangeAllSelected(false);
 			}
 		}
 		private void CmsiRemove_Click(object sender, EventArgs e) {
-			if (sender is ToolStripMenuItem item && item.Owner is ContextMenuStrip cms && cms.SourceControl is Label l && l.Tag is TagRef tr) {
-				RemoveFromAllPlates(tr);
+			if (sender is ToolStripMenuItem item && item.Owner is ContextMenuStrip cms && cms.SourceControl is Label l && l.Tag is TagRef ) {
+				TagChangeAllSelected(true);
 			}
 		}
 		private void CmsiShow_Click(object sender, EventArgs e) {
-			if (sender is ToolStripMenuItem item && item.Tag is ContextMenuStrip cms && cms.SourceControl is Label l && l.Tag is TagRef tr) {
-				tr.SetVisibility(true);
+			if (sender is ToolStripMenuItem item && item.Tag is ContextMenuStrip cms && cms.SourceControl is Label l && l.Tag is TagRef) {
+				VisChangeAllSelected(true);
 			}
 		}
 		private void CmsiHide_Click(object sender, EventArgs e) {
-			if (sender is ToolStripMenuItem item && item.Tag is ContextMenuStrip cms && cms.SourceControl is Label l && l.Tag is TagRef tr) {
-				tr.SetVisibility(false);
+			if (sender is ToolStripMenuItem item && item.Tag is ContextMenuStrip cms && cms.SourceControl is Label l && l.Tag is TagRef) {
+				VisChangeAllSelected(false);
 			}
 		}
 		private void CmsiRemoveImg_Click(object sender, EventArgs e) {
@@ -249,6 +284,11 @@ namespace Embedding_Name_Helper {
 				tr.Children.Remove((l, plate));                             // "" + O(N)
 				tr.Uses--;
 				tr.CheckLabelStatus();
+			}
+		}
+		private void TbxTag_KeyDown(object sender, KeyEventArgs e) {
+			if (e.KeyCode == Keys.Enter) {
+				BtnAddTag.PerformClick();
 			}
 		}
 

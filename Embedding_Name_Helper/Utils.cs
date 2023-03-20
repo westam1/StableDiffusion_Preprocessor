@@ -60,7 +60,7 @@ namespace Embedding_Name_Helper {
 		public static void SetLabelColor(bool Selected, int Uses, Label Lbl) {
 			if (Selected) {
 				Lbl.BackColor = Color.Yellow;
-			} else if (Uses == MainForm.OpenFileCount) {
+			} else if (Uses == MainForm.OpenFileCount && Uses != 0) {
 				Lbl.BackColor = Color.LightGreen;
 			} else if (Uses == 0) {
 				Lbl.BackColor = Color.LightPink;

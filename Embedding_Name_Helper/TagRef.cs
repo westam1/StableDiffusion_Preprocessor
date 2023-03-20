@@ -36,6 +36,7 @@ namespace Embedding_Name_Helper {
 			foreach ((Label L, _) in Children) {
 				L.Visible = State;
 			}
+			Lbl.BorderStyle = ((Visible) ? BorderStyle.Fixed3D : BorderStyle.None);
 		}
 
 		public void CheckLabelStatus() {
@@ -75,6 +76,8 @@ namespace Embedding_Name_Helper {
 				AutoSize = true,
 				Size = MainForm.CacheTextMeasure.MeasureString(Input, TAG_FONT).ToSize(),
 				ContextMenuStrip = Utils.Parent.CmsTag,
+				BorderStyle = BorderStyle.Fixed3D,
+				FlatStyle = FlatStyle.Flat,
 			};
 			lbl.Click += Utils.Label_Clicked;
 			return lbl;
@@ -87,7 +90,7 @@ namespace Embedding_Name_Helper {
 			MousePos = e.Location;
 		}
 		private void Lbl_MouseUp(object sender, MouseEventArgs e) {
-			if (MousePos != Point.Empty) {
+			if (MousePos != Point.Empty && e.Button == MouseButtons.Left) {
 				Selected = !Selected;
 
 				CheckLabelStatus();
