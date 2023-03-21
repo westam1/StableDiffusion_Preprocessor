@@ -12,6 +12,7 @@ namespace Embedding_Name_Helper {
 
 		public void MakeMasterLabel() {
 			Lbl = MakeTagLabel(Utils.WordWrap(Tag, MASTER_CHARS_LINE));
+			string test = Lbl.Text;
 			Lbl.Tag = this;
 			Lbl.MouseDown += Lbl_MouseDown;
 			Lbl.MouseUp += Lbl_MouseUp;
@@ -51,6 +52,15 @@ namespace Embedding_Name_Helper {
 				if (P.m_Flp.Controls.GetChildIndex(L) != ToListPosition(Index)) {
 					P.m_Flp.Controls.SetChildIndex(L, ToListPosition(Index));
 				}
+			}
+		}
+		public void VerifyNames() {
+			string ww = Utils.WordWrap(Tag, MASTER_CHARS_LINE);
+			if (Lbl.Text != ww) { Lbl.Text = ww; }
+
+			ww = Utils.WordWrap(Tag, FILE_CHARS_LINE);
+			foreach ((Label L, _) in Children) {
+				if (L.Text != ww) { L.Text = ww; }
 			}
 		}
 		

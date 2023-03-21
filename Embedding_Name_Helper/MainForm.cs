@@ -14,6 +14,8 @@ namespace Embedding_Name_Helper {
 		private int m_TagIndex;
 
 		//TODO: See if there's a master block for all paint operations in winforms. individual controls still paint and that's the slowdown(probably)
+		//TODO: add sometimes doesn't show
+		//TODO: way to save current state for really big folders
 
 		public MainForm() {
 			InitializeComponent();
@@ -59,6 +61,7 @@ namespace Embedding_Name_Helper {
 				m_MasterTags.Add(toAdd);
 
 				FlpTags.Controls.Add(toAdd.Lbl);
+				FlpTags.Refresh();
 				return toAdd;
 			} else {
 				Predicate<TagRef> finder = toAdd.Equals;
@@ -93,11 +96,12 @@ namespace Embedding_Name_Helper {
 			StopBigUpdate();
 		}
 		internal void SortAllPlates() {
-			FlpFiles.SuspendLayout();	// TODO: This is really slow to be called on every change.
+			StartBigUpdate();	// TODO: This is really slow to be called on every change.
 			foreach (TagRef tr in m_MasterTags) {
 				tr.SortTags();
+				tr.VerifyNames();
 			}
-			FlpFiles.ResumeLayout();
+			StopBigUpdate();
 		}
 		private void TagChangeAllSelected(bool Remove) {
 			StartBigUpdate();
@@ -251,7 +255,7 @@ namespace Embedding_Name_Helper {
 			CommitStateToFiles();
 		}
 		private void BtnAddTag_Click(object sender, EventArgs e) {
-			TagRef tr = AddMasterTag(TbxTag.Text);
+			TagRef tr = AddMasterTag(TbxTag.Text.Trim());
 			TbxTag.Text = "";
 			tr.Uses = 0;
 			tr.CheckLabelStatus();
