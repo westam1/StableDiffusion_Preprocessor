@@ -4,6 +4,7 @@ using System.Text;
 using System.Drawing;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace Embedding_Name_Helper {
 	public partial class MainForm : Form {
@@ -14,7 +15,6 @@ namespace Embedding_Name_Helper {
 		private int m_TagIndex;
 
 		//TODO: See if there's a master block for all paint operations in winforms. individual controls still paint and that's the slowdown(probably)
-		//TODO: add sometimes doesn't show
 		//TODO: way to save current state for really big folders
 
 		public MainForm() {
@@ -140,6 +140,9 @@ namespace Embedding_Name_Helper {
 			}
 		}
 
+		private void ParseMasterTagsList(string BaseStr) {
+
+		}
 		private void ParseA1111Chunk(FilePlateRef Plate, byte[] Data) {
 			// Note PNG: 4byte len, 4byte type, 4byte crc, len data. chunks repeat. tEXt chunk is the one a1111 uses
 			bool parsing = true;
@@ -196,6 +199,69 @@ namespace Embedding_Name_Helper {
 			CheckTagColors();
 		}
 
+		private void SaveState(string FName) {
+			using (BinaryWriter writer = new(File.Open(FName, FileMode.OpenOrCreate, FileAccess.Write))) {
+				writer.BaseStream.SetLength(0);
+
+				writer.Write("master_tags_list{\n".ToCharArray());
+				foreach (TagRef tag in m_MasterTags) {
+					writer.Write(("\t" + tag.Tag + "," + ((tag.Visible) ? "y" : "n") + "," + tag.Index + "\n").ToCharArray());
+				}
+				writer.Write("}\n".ToCharArray());
+
+				writer.Write("plates_list{\n".ToCharArray());
+				foreach (FilePlateRef plate in m_Plates) {
+					writer.Write(("\t" + BtnSelectFolder.Tag + "\\" + plate.m_Lbl.Text + "{\n").ToCharArray());
+					foreach (Label l in plate.m_Flp.Controls) {
+						writer.Write(("\t\t" + l.Text.Replace("\r\n", "") + "\n").ToCharArray());
+					}
+					writer.Write("\t}\n".ToCharArray());
+				}
+				writer.Write("}\n".ToCharArray());
+			}
+		}
+		private void LoadState(string FName) {
+			FlpFiles.Controls.Clear();
+			m_MasterTags.Clear();
+			FlpTags.Controls.Clear();
+			OpenFileCount = m_TagIndex = 0;
+
+			using (BinaryReader reader = new(File.Open(FName, FileMode.Open, FileAccess.Read))) {
+				byte[] data = new byte[reader.BaseStream.Length];
+				reader.Read(data, 0, data.Length);
+				string all = Encoding.ASCII.GetString(data);
+
+				if (Utils.GetStateSet("master_tags_list{", all) is string tagListStr &&
+					Utils.GetStateSet("plates_list{", all) is string plateListStr) {
+					string[] tagList = tagListStr.Split("\n");
+					foreach (string tag in tagList) {
+						string[] tagParts = tag.Trim().Split(',');
+						int index;
+
+						TagRef t = AddMasterTag(tagParts[0]);
+						t.SetVisibility(tagParts[1] == "y");
+						if (int.TryParse(tagParts[2], out index)) { t.Index = index; }
+					}
+					(string, string)[] plateList = Utils.ParsePlates(plateListStr);
+					foreach ((string f, string d) in plateList) {
+						string[] plateTags = d.Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+						FilePlateRef plate = new(m_Master) {
+							Text = f[(f.LastIndexOf('\\') + 1)..],
+						};
+						plate.Image = Image.FromFile(f.Trim());
+						foreach (string token in plateTags) {
+							plate.AddTags(AddMasterTag(token));
+						}
+						OpenFileCount++;
+						m_Plates.Add(plate);
+						FlpFiles.Controls.Add(plate.Reference);
+						plate.Finalize_Load();
+					}
+				}
+
+			}
+		}
+
 		private void CommitStateToFiles() {
 			if (!(BtnSelectFolder.Tag is string folder)) { return; }
 
@@ -203,6 +269,7 @@ namespace Embedding_Name_Helper {
 				string fName = Utils.EnsureExtension(folder + "//" + plate.Text, "txt");
 				bool first = true;
 				using (BinaryWriter writer = new(File.Open(fName, FileMode.OpenOrCreate, FileAccess.Write))) {
+					writer.BaseStream.SetLength(0);
 					foreach (Label l in plate.m_Flp.Controls) {
 						if (l.Tag is TagRef tr) {
 							writer.Write(((first ? "" : ",") + tr.Tag).ToCharArray());
@@ -259,6 +326,22 @@ namespace Embedding_Name_Helper {
 			TbxTag.Text = "";
 			tr.Uses = 0;
 			tr.CheckLabelStatus();
+		}
+		private void BtnSaveState_Click(object sender, EventArgs e) {
+			using (SaveFileDialog sfd = new()) {
+				sfd.Filter = "State files(*.state)|*.state|All files(*.*)|*.*";
+				if (sfd.ShowDialog() == DialogResult.OK) {
+					SaveState(sfd.FileName);
+				}
+			}
+		}
+		private void BtnLoadState_Click(object sender, EventArgs e) {
+			using (OpenFileDialog ofd = new()) {
+				ofd.Filter = "State files(*.state)|*.state|All files(*.*)|*.*";
+				if (ofd.ShowDialog() == DialogResult.OK) {
+					LoadState(ofd.FileName);
+				}
+			}
 		}
 
 		private void CmsTag_Opening(object sender, System.ComponentModel.CancelEventArgs e) {

@@ -36,6 +36,46 @@ namespace Embedding_Name_Helper {
 			}
 			return tokens.ToArray();
 		}
+		public static string GetStateSet(string Desired, string BaseStr) {
+			int pos = BaseStr.IndexOf(Desired), flags = 0;
+
+			if (pos == -1) { return null; }                                                             // If flag not found, return null
+			pos += Desired.Length;
+			if (Desired.Contains('{')) { flags = 1; }
+			for (int i = pos; i < BaseStr.Length; i++) {
+				switch (BaseStr[i]) {
+					case '{': flags++; break;
+					case '}':
+						flags--;
+						if (flags == 0) { return BaseStr[(pos + 2)..i].Trim(); }
+						break;
+				}
+			}
+			return null;																				// If no }, return null
+		}
+		public static (string, string)[] ParsePlates(string PlateStr) {
+			List<(string, string)> plates = new();
+			int pos = 0, flags = 0;
+			string f = "", d = "";
+
+			for (int i = 0; i < PlateStr.Length; i++) {
+				switch (PlateStr[i]) {
+					case '{':
+						flags++;
+						f = PlateStr[pos..i];
+						pos = i + 1;
+						break;
+					case '}':
+						flags--;
+						d = PlateStr[pos..i];
+						pos = i + 1;
+						plates.Add((f, d));
+						break;
+				}
+			}
+
+			return plates.ToArray();
+		}
 		public static string WordWrap(string Input, int MaxCharsLine) {
 			StringBuilder output = new(Input);
 			int lSpace = 0, lNl = 0;

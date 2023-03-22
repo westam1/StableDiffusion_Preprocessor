@@ -24,6 +24,7 @@
 		/// </summary>
 		private void InitializeComponent() {
 			this.components = new System.ComponentModel.Container();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
 			this.TlpMain = new System.Windows.Forms.TableLayoutPanel();
 			this.BtnEditTags = new System.Windows.Forms.Button();
 			this.FlpFiles = new System.Windows.Forms.FlowLayoutPanel();
@@ -40,6 +41,8 @@
 			this.label1 = new System.Windows.Forms.Label();
 			this.BtnAddTag = new System.Windows.Forms.Button();
 			this.TbxTag = new System.Windows.Forms.TextBox();
+			this.BtnSaveState = new System.Windows.Forms.Button();
+			this.BtnLoadState = new System.Windows.Forms.Button();
 			this.CmsTag = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.CmsiAssign = new System.Windows.Forms.ToolStripMenuItem();
 			this.CmsiRemove = new System.Windows.Forms.ToolStripMenuItem();
@@ -59,38 +62,46 @@
 			// 
 			// TlpMain
 			// 
-			this.TlpMain.ColumnCount = 4;
-			this.TlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
-			this.TlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
-			this.TlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
+			this.TlpMain.ColumnCount = 7;
+			this.TlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+			this.TlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+			this.TlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+			this.TlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+			this.TlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+			this.TlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 50F));
 			this.TlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.TlpMain.Controls.Add(this.BtnEditTags, 1, 2);
-			this.TlpMain.Controls.Add(this.FlpFiles, 3, 0);
-			this.TlpMain.Controls.Add(this.FlpTags, 0, 5);
+			this.TlpMain.Controls.Add(this.BtnEditTags, 2, 2);
+			this.TlpMain.Controls.Add(this.FlpFiles, 6, 0);
+			this.TlpMain.Controls.Add(this.FlpTags, 0, 6);
 			this.TlpMain.Controls.Add(this.BtnSelectFolder, 0, 0);
 			this.TlpMain.Controls.Add(this.BtnCommit, 0, 1);
 			this.TlpMain.Controls.Add(this.BtnShowAll, 0, 2);
-			this.TlpMain.Controls.Add(this.BtnRemoveAll, 2, 2);
-			this.TlpMain.Controls.Add(this.label1, 0, 3);
-			this.TlpMain.Controls.Add(this.BtnAddTag, 2, 6);
-			this.TlpMain.Controls.Add(this.TbxTag, 0, 6);
+			this.TlpMain.Controls.Add(this.BtnRemoveAll, 4, 2);
+			this.TlpMain.Controls.Add(this.label1, 0, 4);
+			this.TlpMain.Controls.Add(this.BtnAddTag, 4, 7);
+			this.TlpMain.Controls.Add(this.TbxTag, 0, 7);
+			this.TlpMain.Controls.Add(this.BtnSaveState, 0, 3);
+			this.TlpMain.Controls.Add(this.BtnLoadState, 3, 3);
 			this.TlpMain.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.TlpMain.Location = new System.Drawing.Point(0, 0);
 			this.TlpMain.Name = "TlpMain";
-			this.TlpMain.RowCount = 7;
+			this.TlpMain.RowCount = 8;
 			this.TlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
 			this.TlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+			this.TlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
 			this.TlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
 			this.TlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
 			this.TlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 52F));
 			this.TlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this.TlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
+			this.TlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this.TlpMain.Size = new System.Drawing.Size(1199, 694);
 			this.TlpMain.TabIndex = 0;
 			// 
 			// BtnEditTags
 			// 
 			this.BtnEditTags.BackColor = System.Drawing.Color.Black;
+			this.TlpMain.SetColumnSpan(this.BtnEditTags, 2);
 			this.BtnEditTags.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.BtnEditTags.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.BtnEditTags.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
@@ -113,7 +124,7 @@
 			this.FlpFiles.Location = new System.Drawing.Point(300, 0);
 			this.FlpFiles.Margin = new System.Windows.Forms.Padding(0);
 			this.FlpFiles.Name = "FlpFiles";
-			this.TlpMain.SetRowSpan(this.FlpFiles, 7);
+			this.TlpMain.SetRowSpan(this.FlpFiles, 8);
 			this.FlpFiles.Size = new System.Drawing.Size(899, 694);
 			this.FlpFiles.TabIndex = 0;
 			// 
@@ -184,19 +195,19 @@
 			// 
 			this.FlpTags.AutoScroll = true;
 			this.FlpTags.BackColor = System.Drawing.Color.DimGray;
-			this.TlpMain.SetColumnSpan(this.FlpTags, 3);
+			this.TlpMain.SetColumnSpan(this.FlpTags, 6);
 			this.FlpTags.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.FlpTags.Location = new System.Drawing.Point(2, 211);
+			this.FlpTags.Location = new System.Drawing.Point(2, 239);
 			this.FlpTags.Margin = new System.Windows.Forms.Padding(2, 3, 3, 3);
 			this.FlpTags.Name = "FlpTags";
 			this.FlpTags.Padding = new System.Windows.Forms.Padding(1);
-			this.FlpTags.Size = new System.Drawing.Size(295, 452);
+			this.FlpTags.Size = new System.Drawing.Size(295, 424);
 			this.FlpTags.TabIndex = 1;
 			// 
 			// BtnSelectFolder
 			// 
 			this.BtnSelectFolder.BackColor = System.Drawing.Color.PaleTurquoise;
-			this.TlpMain.SetColumnSpan(this.BtnSelectFolder, 3);
+			this.TlpMain.SetColumnSpan(this.BtnSelectFolder, 6);
 			this.BtnSelectFolder.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.BtnSelectFolder.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.BtnSelectFolder.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
@@ -212,7 +223,7 @@
 			// BtnCommit
 			// 
 			this.BtnCommit.BackColor = System.Drawing.Color.LightGreen;
-			this.TlpMain.SetColumnSpan(this.BtnCommit, 3);
+			this.TlpMain.SetColumnSpan(this.BtnCommit, 6);
 			this.BtnCommit.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.BtnCommit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.BtnCommit.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
@@ -228,6 +239,7 @@
 			// BtnShowAll
 			// 
 			this.BtnShowAll.BackColor = System.Drawing.Color.Black;
+			this.TlpMain.SetColumnSpan(this.BtnShowAll, 2);
 			this.BtnShowAll.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.BtnShowAll.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.BtnShowAll.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
@@ -244,6 +256,7 @@
 			// BtnRemoveAll
 			// 
 			this.BtnRemoveAll.BackColor = System.Drawing.Color.Black;
+			this.TlpMain.SetColumnSpan(this.BtnRemoveAll, 2);
 			this.BtnRemoveAll.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.BtnRemoveAll.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.BtnRemoveAll.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
@@ -261,17 +274,15 @@
 			// 
 			this.label1.AutoSize = true;
 			this.label1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.TlpMain.SetColumnSpan(this.label1, 3);
+			this.TlpMain.SetColumnSpan(this.label1, 6);
 			this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.label1.Location = new System.Drawing.Point(2, 129);
+			this.label1.Location = new System.Drawing.Point(2, 157);
 			this.label1.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.label1.Name = "label1";
 			this.TlpMain.SetRowSpan(this.label1, 2);
 			this.label1.Size = new System.Drawing.Size(296, 78);
 			this.label1.TabIndex = 6;
-			this.label1.Text = "-Click tags to select them\r\n-Click and Drag Tags to pictures\r\n-Right-click tags f" +
-    "or additional options\r\n-Edit tags to change display order\r\n-Use the interface at" +
-    " the bottom to add tags";
+			this.label1.Text = resources.GetString("label1.Text");
 			// 
 			// BtnAddTag
 			// 
@@ -282,7 +293,7 @@
 			this.BtnAddTag.Location = new System.Drawing.Point(201, 667);
 			this.BtnAddTag.Margin = new System.Windows.Forms.Padding(1);
 			this.BtnAddTag.Name = "BtnAddTag";
-			this.BtnAddTag.Size = new System.Drawing.Size(98, 26);
+			this.BtnAddTag.Size = new System.Drawing.Size(48, 26);
 			this.BtnAddTag.TabIndex = 7;
 			this.BtnAddTag.Text = "Add Tag";
 			this.BtnAddTag.UseVisualStyleBackColor = false;
@@ -290,15 +301,49 @@
 			// 
 			// TbxTag
 			// 
-			this.TlpMain.SetColumnSpan(this.TbxTag, 2);
+			this.TlpMain.SetColumnSpan(this.TbxTag, 3);
 			this.TbxTag.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.TbxTag.Location = new System.Drawing.Point(2, 667);
 			this.TbxTag.Margin = new System.Windows.Forms.Padding(2, 1, 1, 2);
 			this.TbxTag.Multiline = true;
 			this.TbxTag.Name = "TbxTag";
-			this.TbxTag.Size = new System.Drawing.Size(197, 25);
+			this.TbxTag.Size = new System.Drawing.Size(147, 25);
 			this.TbxTag.TabIndex = 8;
 			this.TbxTag.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TbxTag_KeyDown);
+			// 
+			// BtnSaveState
+			// 
+			this.BtnSaveState.BackColor = System.Drawing.Color.MediumSlateBlue;
+			this.TlpMain.SetColumnSpan(this.BtnSaveState, 3);
+			this.BtnSaveState.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.BtnSaveState.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.BtnSaveState.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+			this.BtnSaveState.ForeColor = System.Drawing.Color.White;
+			this.BtnSaveState.Location = new System.Drawing.Point(1, 129);
+			this.BtnSaveState.Margin = new System.Windows.Forms.Padding(1);
+			this.BtnSaveState.Name = "BtnSaveState";
+			this.BtnSaveState.Size = new System.Drawing.Size(148, 26);
+			this.BtnSaveState.TabIndex = 9;
+			this.BtnSaveState.Text = "Save Working State";
+			this.BtnSaveState.UseVisualStyleBackColor = false;
+			this.BtnSaveState.Click += new System.EventHandler(this.BtnSaveState_Click);
+			// 
+			// BtnLoadState
+			// 
+			this.BtnLoadState.BackColor = System.Drawing.Color.MediumSlateBlue;
+			this.TlpMain.SetColumnSpan(this.BtnLoadState, 3);
+			this.BtnLoadState.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.BtnLoadState.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.BtnLoadState.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+			this.BtnLoadState.ForeColor = System.Drawing.Color.White;
+			this.BtnLoadState.Location = new System.Drawing.Point(151, 129);
+			this.BtnLoadState.Margin = new System.Windows.Forms.Padding(1);
+			this.BtnLoadState.Name = "BtnLoadState";
+			this.BtnLoadState.Size = new System.Drawing.Size(148, 26);
+			this.BtnLoadState.TabIndex = 10;
+			this.BtnLoadState.Text = "Load Working State";
+			this.BtnLoadState.UseVisualStyleBackColor = false;
+			this.BtnLoadState.Click += new System.EventHandler(this.BtnLoadState_Click);
 			// 
 			// CmsTag
 			// 
@@ -415,5 +460,7 @@
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Button BtnAddTag;
 		private System.Windows.Forms.TextBox TbxTag;
+		private System.Windows.Forms.Button BtnSaveState;
+		private System.Windows.Forms.Button BtnLoadState;
 	}
 }
