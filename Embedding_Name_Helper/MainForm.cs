@@ -15,7 +15,8 @@ namespace Embedding_Name_Helper {
 		private int m_TagIndex;
 
 		//TODO: See if there's a master block for all paint operations in winforms. individual controls still paint and that's the slowdown(probably)
-		//TODO: way to save current state for really big folders
+		//TODO: way to save current state for really big folders (needs more testing and debugging) - just use commit tags for now
+		//TODO: Need a way to choose previous commit vs A1111 tags. also to clear and re-load tags based on
 
 		public MainForm() {
 			InitializeComponent();
@@ -143,6 +144,13 @@ namespace Embedding_Name_Helper {
 		private void ParseMasterTagsList(string BaseStr) {
 
 		}
+		private void ParseCommittedTags(FilePlateRef Plate, byte[] Data) {
+			string fileStr = Encoding.ASCII.GetString(Data);
+			string[] tags = fileStr.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+			foreach (string token in tags) {
+				Plate.AddTags(AddMasterTag(token));
+			}
+		}
 		private void ParseA1111Chunk(FilePlateRef Plate, byte[] Data) {
 			// Note PNG: 4byte len, 4byte type, 4byte crc, len data. chunks repeat. tEXt chunk is the one a1111 uses
 			bool parsing = true;
@@ -181,10 +189,20 @@ namespace Embedding_Name_Helper {
 				FilePlateRef plate = new(m_Master) {
 					Text = fName[(fName.LastIndexOf('\\') + 1)..],
 				};
+				string txtFile = fName[..(fName.Length - 3)] + "txt";
 				using (FileStream fStream = File.Open(fName, FileMode.Open, FileAccess.Read)) {
-					byte[] data = new byte[fStream.Length];
-					fStream.Read(data, 0, data.Length);
-					ParseA1111Chunk(plate, data);
+					if (File.Exists(txtFile)) {
+						using (FileStream txtfStream = File.Open(txtFile, FileMode.Open, FileAccess.Read)) {
+							byte[] data = new byte[txtfStream.Length];
+							txtfStream.Read(data, 0, data.Length);
+							ParseCommittedTags(plate, data);
+						}		
+					} else {
+						byte[] data = new byte[fStream.Length];
+						fStream.Read(data, 0, data.Length);
+						ParseA1111Chunk(plate, data);
+					}
+					
 					fStream.Position = 0;
 					plate.Image = Image.FromStream(fStream);
 				}
