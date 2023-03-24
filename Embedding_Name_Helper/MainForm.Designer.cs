@@ -26,6 +26,7 @@
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
 			this.TlpMain = new System.Windows.Forms.TableLayoutPanel();
+			this.BtnLoadFileTags = new System.Windows.Forms.Button();
 			this.BtnEditTags = new System.Windows.Forms.Button();
 			this.FlpFiles = new System.Windows.Forms.FlowLayoutPanel();
 			this.TlpTemplate = new System.Windows.Forms.TableLayoutPanel();
@@ -41,7 +42,7 @@
 			this.label1 = new System.Windows.Forms.Label();
 			this.BtnAddTag = new System.Windows.Forms.Button();
 			this.TbxTag = new System.Windows.Forms.TextBox();
-			this.BtnSaveState = new System.Windows.Forms.Button();
+			this.BtnClearTags = new System.Windows.Forms.Button();
 			this.BtnLoadState = new System.Windows.Forms.Button();
 			this.CmsTag = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.CmsiAssign = new System.Windows.Forms.ToolStripMenuItem();
@@ -70,6 +71,7 @@
 			this.TlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 50F));
 			this.TlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 50F));
 			this.TlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.TlpMain.Controls.Add(this.BtnLoadFileTags, 3, 1);
 			this.TlpMain.Controls.Add(this.BtnEditTags, 2, 2);
 			this.TlpMain.Controls.Add(this.FlpFiles, 6, 0);
 			this.TlpMain.Controls.Add(this.FlpTags, 0, 6);
@@ -78,9 +80,9 @@
 			this.TlpMain.Controls.Add(this.BtnShowAll, 0, 2);
 			this.TlpMain.Controls.Add(this.BtnRemoveAll, 4, 2);
 			this.TlpMain.Controls.Add(this.label1, 0, 4);
-			this.TlpMain.Controls.Add(this.BtnAddTag, 4, 7);
+			this.TlpMain.Controls.Add(this.BtnAddTag, 5, 7);
 			this.TlpMain.Controls.Add(this.TbxTag, 0, 7);
-			this.TlpMain.Controls.Add(this.BtnSaveState, 0, 3);
+			this.TlpMain.Controls.Add(this.BtnClearTags, 0, 3);
 			this.TlpMain.Controls.Add(this.BtnLoadState, 3, 3);
 			this.TlpMain.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.TlpMain.Location = new System.Drawing.Point(0, 0);
@@ -97,6 +99,22 @@
 			this.TlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this.TlpMain.Size = new System.Drawing.Size(1199, 694);
 			this.TlpMain.TabIndex = 0;
+			// 
+			// BtnLoadFileTags
+			// 
+			this.BtnLoadFileTags.BackColor = System.Drawing.Color.LightCoral;
+			this.TlpMain.SetColumnSpan(this.BtnLoadFileTags, 3);
+			this.BtnLoadFileTags.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.BtnLoadFileTags.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.BtnLoadFileTags.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+			this.BtnLoadFileTags.Location = new System.Drawing.Point(151, 51);
+			this.BtnLoadFileTags.Margin = new System.Windows.Forms.Padding(1);
+			this.BtnLoadFileTags.Name = "BtnLoadFileTags";
+			this.BtnLoadFileTags.Size = new System.Drawing.Size(148, 48);
+			this.BtnLoadFileTags.TabIndex = 11;
+			this.BtnLoadFileTags.Text = "Load Tags from Files";
+			this.BtnLoadFileTags.UseVisualStyleBackColor = false;
+			this.BtnLoadFileTags.Click += new System.EventHandler(this.BtnLoadFileTags_Click);
 			// 
 			// BtnEditTags
 			// 
@@ -223,16 +241,16 @@
 			// BtnCommit
 			// 
 			this.BtnCommit.BackColor = System.Drawing.Color.LightGreen;
-			this.TlpMain.SetColumnSpan(this.BtnCommit, 6);
+			this.TlpMain.SetColumnSpan(this.BtnCommit, 3);
 			this.BtnCommit.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.BtnCommit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.BtnCommit.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
 			this.BtnCommit.Location = new System.Drawing.Point(1, 51);
 			this.BtnCommit.Margin = new System.Windows.Forms.Padding(1);
 			this.BtnCommit.Name = "BtnCommit";
-			this.BtnCommit.Size = new System.Drawing.Size(298, 48);
+			this.BtnCommit.Size = new System.Drawing.Size(148, 48);
 			this.BtnCommit.TabIndex = 2;
-			this.BtnCommit.Text = "Generate File \r\nDescriptions from Tags";
+			this.BtnCommit.Text = "Generate and Save Tag Files";
 			this.BtnCommit.UseVisualStyleBackColor = false;
 			this.BtnCommit.Click += new System.EventHandler(this.BtnCommit_Click);
 			// 
@@ -290,7 +308,7 @@
 			this.BtnAddTag.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.BtnAddTag.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.BtnAddTag.ForeColor = System.Drawing.Color.White;
-			this.BtnAddTag.Location = new System.Drawing.Point(201, 667);
+			this.BtnAddTag.Location = new System.Drawing.Point(251, 667);
 			this.BtnAddTag.Margin = new System.Windows.Forms.Padding(1);
 			this.BtnAddTag.Name = "BtnAddTag";
 			this.BtnAddTag.Size = new System.Drawing.Size(48, 26);
@@ -301,32 +319,32 @@
 			// 
 			// TbxTag
 			// 
-			this.TlpMain.SetColumnSpan(this.TbxTag, 3);
+			this.TlpMain.SetColumnSpan(this.TbxTag, 5);
 			this.TbxTag.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.TbxTag.Location = new System.Drawing.Point(2, 667);
 			this.TbxTag.Margin = new System.Windows.Forms.Padding(2, 1, 1, 2);
 			this.TbxTag.Multiline = true;
 			this.TbxTag.Name = "TbxTag";
-			this.TbxTag.Size = new System.Drawing.Size(147, 25);
+			this.TbxTag.Size = new System.Drawing.Size(247, 25);
 			this.TbxTag.TabIndex = 8;
 			this.TbxTag.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TbxTag_KeyDown);
 			// 
-			// BtnSaveState
+			// BtnClearTags
 			// 
-			this.BtnSaveState.BackColor = System.Drawing.Color.MediumSlateBlue;
-			this.TlpMain.SetColumnSpan(this.BtnSaveState, 3);
-			this.BtnSaveState.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.BtnSaveState.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.BtnSaveState.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-			this.BtnSaveState.ForeColor = System.Drawing.Color.White;
-			this.BtnSaveState.Location = new System.Drawing.Point(1, 129);
-			this.BtnSaveState.Margin = new System.Windows.Forms.Padding(1);
-			this.BtnSaveState.Name = "BtnSaveState";
-			this.BtnSaveState.Size = new System.Drawing.Size(148, 26);
-			this.BtnSaveState.TabIndex = 9;
-			this.BtnSaveState.Text = "Save Working State";
-			this.BtnSaveState.UseVisualStyleBackColor = false;
-			this.BtnSaveState.Click += new System.EventHandler(this.BtnSaveState_Click);
+			this.BtnClearTags.BackColor = System.Drawing.Color.MediumSlateBlue;
+			this.TlpMain.SetColumnSpan(this.BtnClearTags, 3);
+			this.BtnClearTags.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.BtnClearTags.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.BtnClearTags.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+			this.BtnClearTags.ForeColor = System.Drawing.Color.White;
+			this.BtnClearTags.Location = new System.Drawing.Point(1, 129);
+			this.BtnClearTags.Margin = new System.Windows.Forms.Padding(1);
+			this.BtnClearTags.Name = "BtnClearTags";
+			this.BtnClearTags.Size = new System.Drawing.Size(148, 26);
+			this.BtnClearTags.TabIndex = 9;
+			this.BtnClearTags.Text = "Clear Tags";
+			this.BtnClearTags.UseVisualStyleBackColor = false;
+			this.BtnClearTags.Click += new System.EventHandler(this.BtnClearTags_Click);
 			// 
 			// BtnLoadState
 			// 
@@ -341,9 +359,9 @@
 			this.BtnLoadState.Name = "BtnLoadState";
 			this.BtnLoadState.Size = new System.Drawing.Size(148, 26);
 			this.BtnLoadState.TabIndex = 10;
-			this.BtnLoadState.Text = "Load Working State";
+			this.BtnLoadState.Text = "Load A1111 Tags";
 			this.BtnLoadState.UseVisualStyleBackColor = false;
-			this.BtnLoadState.Click += new System.EventHandler(this.BtnLoadState_Click);
+			this.BtnLoadState.Click += new System.EventHandler(this.BtnLoadA1111Tags_Click);
 			// 
 			// CmsTag
 			// 
@@ -419,7 +437,7 @@
 			this.ClientSize = new System.Drawing.Size(1199, 694);
 			this.Controls.Add(this.TlpMain);
 			this.Name = "MainForm";
-			this.Text = "Stable Diffusion Embeddings Image Tag Generation Helper - v1.0.0.0";
+			this.Text = "Stable Diffusion Embeddings Image Tag Generation Helper - v1.1.0.0";
 			this.TlpMain.ResumeLayout(false);
 			this.TlpMain.PerformLayout();
 			this.FlpFiles.ResumeLayout(false);
@@ -460,7 +478,8 @@
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Button BtnAddTag;
 		private System.Windows.Forms.TextBox TbxTag;
-		private System.Windows.Forms.Button BtnSaveState;
+		private System.Windows.Forms.Button BtnClearTags;
 		private System.Windows.Forms.Button BtnLoadState;
+		private System.Windows.Forms.Button BtnLoadFileTags;
 	}
 }

@@ -100,6 +100,10 @@ namespace Embedding_Name_Helper {
 		public void RemoveTags(Label Lbl) {
 			m_Flp.Controls.Remove(Lbl);
 		}
+		public void ClearChildTags() {
+			foreach (Control ctrl in m_Flp.Controls) { ctrl.Dispose(); }
+			m_Flp.Controls.Clear();
+		}
 
 		public string Text { get { return m_Lbl.Text; } set { m_Lbl.Text = value; } }
 		public Image Image { get { return m_Pbx.BackgroundImage; } set { m_Pbx.BackgroundImage = value; } }

@@ -32,6 +32,9 @@ namespace Embedding_Name_Helper {
 			}
 			return null;
 		}
+		public void ClearChildPlates() {
+			Children.Clear();
+		}
 
 		public void SetVisibility(bool State) {
 			Visible = State;
