@@ -4,8 +4,6 @@ using System.Text;
 using System.Drawing;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using System.Xml.Linq;
-using System.Formats.Tar;
 
 namespace Embedding_Name_Helper {
 	public partial class MainForm : Form {
@@ -14,16 +12,20 @@ namespace Embedding_Name_Helper {
 		private readonly FilePlateRef m_Master;
 		private TagOrderForm m_TagOrderForm;
 		private int m_TagIndex;
+		private AutoCompleteStringCollection m_ACSource;
 
 		//TODO: See if there's a master block for all paint operations in winforms. individual controls still paint and that's the slowdown(probably)
+		//TODO: Cleaner and smoother interface for removing tags and for multi-select, clearing selections
 
 		public MainForm() {
 			InitializeComponent();
 			m_Plates = new List<FilePlateRef>();
 			m_MasterTags = new List<TagRef>();
 			m_Master = new FilePlateRef(TlpTemplate, LblFNameTemplate, PbxTemplate, FlpTemplate);
+			m_ACSource = new AutoCompleteStringCollection();
 			CacheTextMeasure = FlpTags.CreateGraphics();
 			this.DoubleBuffered = true;
+			TbxTag.AutoCompleteCustomSource = m_ACSource;
 
 			CmsiHide.Tag = CmsTag;
 			CmsiShow.Tag = CmsTag;
@@ -52,13 +54,14 @@ namespace Embedding_Name_Helper {
 			}
 			ResumeLayout();
 		}
-		private TagRef AddMasterTag(string Input) {
+		private TagRef AddMasterTag(string Input, int InitialUses) {
 			TagRef toAdd = new(Input, null);
 			if (!m_MasterTags.Contains(toAdd)) {
-				toAdd.Uses = 1;
+				toAdd.Uses = InitialUses;
 				toAdd.MakeMasterLabel();
 				toAdd.Index = m_TagIndex++;
 				m_MasterTags.Add(toAdd);
+				m_ACSource.Add(Input);
 
 				FlpTags.Controls.Add(toAdd.Lbl);
 				FlpTags.Refresh();
@@ -66,7 +69,9 @@ namespace Embedding_Name_Helper {
 			} else {
 				Predicate<TagRef> finder = toAdd.Equals;
 				TagRef t = m_MasterTags.Find(finder);
-				t.Uses++;
+				if (InitialUses != 0) {				// TODO: Trashy hacky way to block over-add from add pulse as search
+					t.Uses++;
+				}
 				return t;
 			}
 		}
@@ -122,15 +127,9 @@ namespace Embedding_Name_Helper {
 			}
 			StopBigUpdate();
 		}
-		private static void AddTagToPlate(FilePlateRef Plate, TagRef Tag) {
-			if (Tag.FindChildInPlate(Plate) == null) {
-				Plate.AddTags(Tag);
-			}
-		}
-		private void RemoveTagFromPlate(FilePlateRef Plate, TagRef Tag) {
-			if (Tag.FindChildInPlate(Plate) is Label l) {
-				Plate.RemoveTags(l);
-				Tag.Children.Remove((l, Plate));
+		private void UnselectAll() {
+			foreach(TagRef tag in m_MasterTags) {
+				if (tag.Selected) { tag.Selected = false; }
 			}
 		}
 		
@@ -144,7 +143,7 @@ namespace Embedding_Name_Helper {
 			string fileStr = Encoding.ASCII.GetString(Data);
 			string[] tags = fileStr.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
 			foreach (string token in tags) {
-				Plate.AddTags(AddMasterTag(token));
+				Plate.AddTags(AddMasterTag(token, 1));
 			}
 		}
 		private void ParseA1111Chunk(FilePlateRef Plate, byte[] Data) {
@@ -163,7 +162,7 @@ namespace Embedding_Name_Helper {
 							string[] prms = Utils.Tokenize(Encoding.ASCII.GetString(buf, 0, len).Split('\n')[0][7..]);
 
 							foreach (string token in prms) {
-								Plate.AddTags(AddMasterTag(token));
+								Plate.AddTags(AddMasterTag(token, 1));
 							}
 							parsing = false;
 						}
@@ -179,6 +178,7 @@ namespace Embedding_Name_Helper {
 			FlpFiles.Controls.Clear();
 			m_MasterTags.Clear();
 			FlpTags.Controls.Clear();
+			m_ACSource.Clear();
 			OpenFileCount = m_TagIndex = 0;
 
 			foreach (string fName in Directory.GetFiles(Folder, "*.png")) {
@@ -273,10 +273,12 @@ namespace Embedding_Name_Helper {
 			CommitStateToFiles();
 		}
 		private void BtnAddTag_Click(object sender, EventArgs e) {
-			TagRef tr = AddMasterTag(TbxTag.Text.Trim());
+			UnselectAll();
+			TagRef tr = AddMasterTag(TbxTag.Text.Trim(), 0);
+			tr.Selected = true;
 			TbxTag.Text = "";
-			tr.Uses = 0;
 			tr.CheckLabelStatus();
+			CheckTagColors();
 		}
 		private void BtnClearTags_Click(object sender, EventArgs e) {
 			StartBigUpdate();
@@ -284,6 +286,7 @@ namespace Embedding_Name_Helper {
 				c.Dispose();
 			}
 			m_MasterTags.Clear();
+			m_ACSource.Clear();
 			foreach (FilePlateRef plate in m_Plates) {
 				plate.ClearChildTags();
 			}
@@ -365,6 +368,7 @@ namespace Embedding_Name_Helper {
 		}
 		private void TbxTag_KeyDown(object sender, KeyEventArgs e) {
 			if (e.KeyCode == Keys.Enter) {
+				e.SuppressKeyPress = true;
 				BtnAddTag.PerformClick();
 			}
 		}
@@ -373,5 +377,17 @@ namespace Embedding_Name_Helper {
 
 		public static int OpenFileCount { get; set; } = 0;
 		public static Graphics CacheTextMeasure { get; private set; } = null;
+
+		private static void AddTagToPlate(FilePlateRef Plate, TagRef Tag) {
+			if (Tag.FindChildInPlate(Plate) == null) {
+				Plate.AddTags(Tag);
+			}
+		}
+		private static void RemoveTagFromPlate(FilePlateRef Plate, TagRef Tag) {
+			if (Tag.FindChildInPlate(Plate) is Label l) {
+				Plate.RemoveTags(l);
+				Tag.Children.Remove((l, Plate));
+			}
+		}
 	}
 }

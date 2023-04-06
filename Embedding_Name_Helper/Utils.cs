@@ -4,6 +4,8 @@ using System.Drawing;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
+using static System.Net.Mime.MediaTypeNames;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Embedding_Name_Helper {
 	internal static class Utils {
@@ -23,6 +25,7 @@ namespace Embedding_Name_Helper {
 					case '}': flags &= ~0x02f; break;
 					case '(': flags |= 0x04f; break;
 					case ')': flags &= ~0x04f; break;
+					case '.':
 					case ',': 
 						if (flags == 0) {
 							tokens.Add(Input[pos..i].Trim());
@@ -80,10 +83,10 @@ namespace Embedding_Name_Helper {
 			StringBuilder output = new(Input);
 			int lSpace = 0, lNl = 0;
 			for (int i = 0; i < output.Length; i++) {
-				if (output[i] == ' ') { lSpace = i + 1; }
-				if (i - lNl >= MaxCharsLine && lSpace != lNl + 2) {
-					output.Insert(lSpace, "\r\n");
-					lNl = lSpace + 2;
+				if (output[i] == ' ') { lSpace = i; }
+				if (i - lNl >= MaxCharsLine && lSpace != lNl && lSpace != 0) {
+					output.Insert((lSpace + 1), "\r\n");
+					lNl = lSpace;
 				}
 			}
 			return output.ToString();
