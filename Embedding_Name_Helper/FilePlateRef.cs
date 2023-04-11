@@ -5,11 +5,11 @@ namespace Embedding_Name_Helper {
 	public class FilePlateRef {
 		public TableLayoutPanel m_TLP;
 		public Label m_Lbl;
-		public PictureBox m_Pbx;
+		public PictureBox m_Pbx, m_Mirror;
 		public FlowLayoutPanel m_Flp;
 
-		public FilePlateRef(TableLayoutPanel Tlp, Label Lbl, PictureBox Pbx, FlowLayoutPanel Flp) {
-			m_TLP = Tlp; m_Lbl = Lbl; m_Pbx = Pbx; m_Flp = Flp;
+		public FilePlateRef(TableLayoutPanel Tlp, Label Lbl, PictureBox Pbx, PictureBox Mirror, FlowLayoutPanel Flp) {
+			m_TLP = Tlp; m_Lbl = Lbl; m_Pbx = Pbx; m_Mirror = Mirror; m_Flp = Flp;
 		}
 		public FilePlateRef(FilePlateRef ToCopy) {
 			m_TLP = new TableLayoutPanel() {
@@ -27,6 +27,12 @@ namespace Embedding_Name_Helper {
 			};
 			m_Pbx = new PictureBox() {
 				Size = new Size(ToCopy.m_Pbx.Width, ToCopy.m_Pbx.Height),
+				Dock = DockStyle.Fill,
+				BackgroundImageLayout = ImageLayout.Stretch,
+				Margin = new Padding(0, 0, 0, 0),
+			};
+			m_Mirror = new PictureBox() {
+				Size = new Size(ToCopy.m_Mirror.Width, ToCopy.m_Mirror.Height),
 				Dock = DockStyle.Fill,
 				BackgroundImageLayout = ImageLayout.Stretch,
 				Margin = new Padding(0, 0, 0, 0),
@@ -55,10 +61,18 @@ namespace Embedding_Name_Helper {
 
 			m_TLP.Controls.Add(m_Lbl);
 			m_TLP.Controls.Add(m_Pbx);
+			m_TLP.Controls.Add(m_Mirror);
 			m_TLP.Controls.Add(m_Flp);
 			m_TLP.SetRow(m_Lbl, 0);
+			m_TLP.SetColumn(m_Lbl, 0);
+			m_TLP.SetColumnSpan(m_Lbl, 2);
 			m_TLP.SetRow(m_Pbx, 1);
+			m_TLP.SetRow(m_Mirror, 1);
+			m_TLP.SetColumn(m_Pbx, 0);
+			m_TLP.SetColumn(m_Mirror, 1);
 			m_TLP.SetRow(m_Flp, 2);
+			m_TLP.SetColumn(m_Flp, 0);
+			m_TLP.SetColumnSpan(m_Flp, 2);
 		}
 		public void Finalize_Load() {
 			m_TLP.ResumeLayout();

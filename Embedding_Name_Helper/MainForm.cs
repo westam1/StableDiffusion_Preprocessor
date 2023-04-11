@@ -2,8 +2,11 @@
 using System.IO;
 using System.Text;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace Embedding_Name_Helper {
 	public partial class MainForm : Form {
@@ -21,7 +24,7 @@ namespace Embedding_Name_Helper {
 			InitializeComponent();
 			m_Plates = new List<FilePlateRef>();
 			m_MasterTags = new List<TagRef>();
-			m_Master = new FilePlateRef(TlpTemplate, LblFNameTemplate, PbxTemplate, FlpTemplate);
+			m_Master = new FilePlateRef(TlpTemplate, LblFNameTemplate, PbxTemplate, PbxTemplateReverse, FlpTemplate);
 			m_ACSource = new AutoCompleteStringCollection();
 			CacheTextMeasure = FlpTags.CreateGraphics();
 			this.DoubleBuffered = true;
@@ -127,16 +130,31 @@ namespace Embedding_Name_Helper {
 			}
 			StopBigUpdate();
 		}
-		private void UnselectAll() {
+		public void UnselectAll() {
 			foreach(TagRef tag in m_MasterTags) {
 				if (tag.Selected) { tag.Selected = false; }
 			}
+			CheckTagColors();
 		}
 		
 		private void CheckTagColors() {
 			foreach (TagRef tr in m_MasterTags) {
 				tr.CheckLabelStatus();
 			}
+		}
+		private void GenerateMirroredImages() {
+			foreach (FilePlateRef plate in m_Plates) {
+				plate.m_Mirror.BackgroundImage = new Bitmap(plate.Image);
+				plate.m_Mirror.BackgroundImage.RotateFlip(RotateFlipType.Rotate180FlipY);
+				plate.m_Mirror.Invalidate();
+			}
+		}
+		private void CheckPlateSize() {
+			StartBigUpdate();
+			foreach (FilePlateRef plate in m_Plates) {
+				plate.m_TLP.Width = ((CbxMirror.Checked) ? 256 : 128);
+			}
+			StopBigUpdate();
 		}
 
 		private void ParseCommittedTags(FilePlateRef Plate, byte[] Data) {
@@ -209,8 +227,60 @@ namespace Embedding_Name_Helper {
 				Application.DoEvents();						// Note: Looks better to see things popping in than to see things frozen by layout suspend. Probably add progress bar.
 			}
 
-			StopBigUpdate();
 			CheckTagColors();
+			if (CbxMirror.Checked) { GenerateMirroredImages(); }
+			CheckPlateSize();
+			StopBigUpdate();
+		}
+		private void ExportToTrainingFolder() {
+			int index = 0;
+			if (BtnSelectFolder.Tag is not string folder) { return; }
+
+			static void writeTextFile(string F, FilePlateRef P) {
+				bool first = true;
+				using (BinaryWriter writer = new(File.Open(F + ".txt", FileMode.OpenOrCreate, FileAccess.Write))) {
+					writer.BaseStream.SetLength(0);
+					foreach (Label l in P.m_Flp.Controls) {
+						if (l.Tag is TagRef tr) {
+							writer.Write(((first ? "" : ",") + tr.Tag).ToCharArray());
+							first = false;
+						}
+					}
+				}
+			}
+			static void writeImgFile(string F, FilePlateRef P, bool Resize, Image Img) {
+				using (FileStream imgStream = File.Open(F + ".png", FileMode.OpenOrCreate, FileAccess.Write)) {
+					imgStream.SetLength(0);
+					if (Resize) {
+						Bitmap write = new(Img, new Size(512, 512));
+						write.Save(imgStream, ImageFormat.Png);
+					} else {
+						Img.Save(imgStream, ImageFormat.Png);
+					}
+				}
+			}
+
+			string trainingFolder = folder + "//TrainingSet";
+			if (Directory.Exists(trainingFolder)) { 
+				foreach (string files in Directory.GetFiles(trainingFolder)) {
+					File.Delete(files);
+				}
+				Directory.Delete(trainingFolder); 
+			}
+			Directory.CreateDirectory(trainingFolder);
+			foreach (FilePlateRef plate in m_Plates) {
+				string fName = trainingFolder + "//FileGen_" + index;
+				writeTextFile(fName, plate);
+				writeImgFile(fName, plate, CbxResize.Checked, plate.Image);
+				if (CbxMirror.Checked) {
+					fName += "r";
+					Bitmap imgFlip = new Bitmap(plate.Image);
+					imgFlip.RotateFlip(RotateFlipType.Rotate180FlipY);
+					writeTextFile(fName, plate);
+					writeImgFile(fName, plate, CbxResize.Checked, imgFlip);
+				}
+				index++;
+			}
 		}
 
 		private void CommitStateToFiles() {
@@ -257,7 +327,7 @@ namespace Embedding_Name_Helper {
 			m_TagOrderForm = (TagOrderForm)Utils.SafeFormShow(this, m_TagOrderForm, new object[] { m_MasterTags });
 		}
 		private void BtnSelectFolder_Click(object sender, EventArgs e) {
-			using (FolderBrowserDialog fbd = new FolderBrowserDialog()) {
+			using (FolderBrowserDialog fbd = new()) {
 				BtnSelectFolder.Text = "(click to select folder)";
 				if (fbd.ShowDialog() == DialogResult.OK) {
 					BtnSelectFolder.Tag = fbd.SelectedPath;
@@ -325,6 +395,15 @@ namespace Embedding_Name_Helper {
 				Application.DoEvents();
 			}
 			CheckTagColors();
+		}
+		private void BtnExport_Click(object sender, EventArgs e) {
+			ExportToTrainingFolder();
+		}
+		private void CbxMirror_Click(object sender, EventArgs e) {
+			if (CbxMirror.Checked) {
+				GenerateMirroredImages();
+			}
+			CheckPlateSize();
 		}
 
 		private void CmsTag_Opening(object sender, System.ComponentModel.CancelEventArgs e) {

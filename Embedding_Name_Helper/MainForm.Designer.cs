@@ -26,6 +26,8 @@
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
 			this.TlpMain = new System.Windows.Forms.TableLayoutPanel();
+			this.CbxResize = new System.Windows.Forms.CheckBox();
+			this.BtnExport = new System.Windows.Forms.Button();
 			this.BtnAddTag = new System.Windows.Forms.Button();
 			this.TbxTag = new System.Windows.Forms.TextBox();
 			this.label1 = new System.Windows.Forms.Label();
@@ -33,6 +35,7 @@
 			this.BtnEditTags = new System.Windows.Forms.Button();
 			this.FlpFiles = new System.Windows.Forms.FlowLayoutPanel();
 			this.TlpTemplate = new System.Windows.Forms.TableLayoutPanel();
+			this.PbxTemplateReverse = new System.Windows.Forms.PictureBox();
 			this.LblFNameTemplate = new System.Windows.Forms.Label();
 			this.PbxTemplate = new System.Windows.Forms.PictureBox();
 			this.FlpTemplate = new System.Windows.Forms.FlowLayoutPanel();
@@ -44,6 +47,7 @@
 			this.BtnRemoveAll = new System.Windows.Forms.Button();
 			this.BtnClearTags = new System.Windows.Forms.Button();
 			this.BtnLoadState = new System.Windows.Forms.Button();
+			this.CbxMirror = new System.Windows.Forms.CheckBox();
 			this.CmsTag = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.CmsiAssign = new System.Windows.Forms.ToolStripMenuItem();
 			this.CmsiRemove = new System.Windows.Forms.ToolStripMenuItem();
@@ -56,6 +60,7 @@
 			this.TlpMain.SuspendLayout();
 			this.FlpFiles.SuspendLayout();
 			this.TlpTemplate.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.PbxTemplateReverse)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.PbxTemplate)).BeginInit();
 			this.FlpTemplate.SuspendLayout();
 			this.CmsTag.SuspendLayout();
@@ -71,34 +76,75 @@
 			this.TlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 50F));
 			this.TlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 50F));
 			this.TlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.TlpMain.Controls.Add(this.BtnAddTag, 5, 6);
-			this.TlpMain.Controls.Add(this.TbxTag, 0, 6);
-			this.TlpMain.Controls.Add(this.label1, 0, 4);
+			this.TlpMain.Controls.Add(this.CbxResize, 3, 5);
+			this.TlpMain.Controls.Add(this.BtnExport, 0, 4);
+			this.TlpMain.Controls.Add(this.BtnAddTag, 5, 8);
+			this.TlpMain.Controls.Add(this.TbxTag, 0, 8);
+			this.TlpMain.Controls.Add(this.label1, 0, 6);
 			this.TlpMain.Controls.Add(this.BtnLoadFileTags, 3, 1);
 			this.TlpMain.Controls.Add(this.BtnEditTags, 2, 2);
 			this.TlpMain.Controls.Add(this.FlpFiles, 6, 0);
-			this.TlpMain.Controls.Add(this.FlpTags, 0, 7);
+			this.TlpMain.Controls.Add(this.FlpTags, 0, 9);
 			this.TlpMain.Controls.Add(this.BtnSelectFolder, 0, 0);
 			this.TlpMain.Controls.Add(this.BtnCommit, 0, 1);
 			this.TlpMain.Controls.Add(this.BtnShowAll, 0, 2);
 			this.TlpMain.Controls.Add(this.BtnRemoveAll, 4, 2);
 			this.TlpMain.Controls.Add(this.BtnClearTags, 0, 3);
 			this.TlpMain.Controls.Add(this.BtnLoadState, 3, 3);
+			this.TlpMain.Controls.Add(this.CbxMirror, 0, 5);
 			this.TlpMain.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.TlpMain.Location = new System.Drawing.Point(0, 0);
 			this.TlpMain.Name = "TlpMain";
-			this.TlpMain.RowCount = 8;
+			this.TlpMain.RowCount = 10;
 			this.TlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
 			this.TlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
 			this.TlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
 			this.TlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
+			this.TlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
+			this.TlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 45F));
 			this.TlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
 			this.TlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 52F));
 			this.TlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
 			this.TlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.TlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.TlpMain.Size = new System.Drawing.Size(1199, 694);
+			this.TlpMain.Size = new System.Drawing.Size(1440, 787);
 			this.TlpMain.TabIndex = 0;
+			// 
+			// CbxResize
+			// 
+			this.CbxResize.Appearance = System.Windows.Forms.Appearance.Button;
+			this.CbxResize.AutoSize = true;
+			this.CbxResize.Checked = true;
+			this.CbxResize.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.TlpMain.SetColumnSpan(this.CbxResize, 3);
+			this.CbxResize.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.CbxResize.FlatAppearance.BorderSize = 2;
+			this.CbxResize.FlatAppearance.CheckedBackColor = System.Drawing.Color.PaleGreen;
+			this.CbxResize.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.CbxResize.Location = new System.Drawing.Point(152, 185);
+			this.CbxResize.Margin = new System.Windows.Forms.Padding(2, 1, 1, 1);
+			this.CbxResize.Name = "CbxResize";
+			this.CbxResize.Size = new System.Drawing.Size(147, 43);
+			this.CbxResize.TabIndex = 14;
+			this.CbxResize.Text = "Resize Images to 512x512 on Export";
+			this.CbxResize.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.CbxResize.UseVisualStyleBackColor = true;
+			// 
+			// BtnExport
+			// 
+			this.BtnExport.BackColor = System.Drawing.Color.DarkGreen;
+			this.TlpMain.SetColumnSpan(this.BtnExport, 6);
+			this.BtnExport.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.BtnExport.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.BtnExport.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+			this.BtnExport.ForeColor = System.Drawing.Color.White;
+			this.BtnExport.Location = new System.Drawing.Point(1, 157);
+			this.BtnExport.Margin = new System.Windows.Forms.Padding(1);
+			this.BtnExport.Name = "BtnExport";
+			this.BtnExport.Size = new System.Drawing.Size(298, 26);
+			this.BtnExport.TabIndex = 12;
+			this.BtnExport.Text = "Export All To Training Folder";
+			this.BtnExport.UseVisualStyleBackColor = false;
+			this.BtnExport.Click += new System.EventHandler(this.BtnExport_Click);
 			// 
 			// BtnAddTag
 			// 
@@ -106,7 +152,7 @@
 			this.BtnAddTag.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.BtnAddTag.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.BtnAddTag.ForeColor = System.Drawing.Color.White;
-			this.BtnAddTag.Location = new System.Drawing.Point(251, 237);
+			this.BtnAddTag.Location = new System.Drawing.Point(251, 310);
 			this.BtnAddTag.Margin = new System.Windows.Forms.Padding(1);
 			this.BtnAddTag.Name = "BtnAddTag";
 			this.BtnAddTag.Size = new System.Drawing.Size(48, 26);
@@ -125,7 +171,7 @@
 			this.TbxTag.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
 			this.TlpMain.SetColumnSpan(this.TbxTag, 5);
 			this.TbxTag.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.TbxTag.Location = new System.Drawing.Point(2, 239);
+			this.TbxTag.Location = new System.Drawing.Point(2, 312);
 			this.TbxTag.Margin = new System.Windows.Forms.Padding(2, 3, 1, 2);
 			this.TbxTag.Name = "TbxTag";
 			this.TbxTag.PlaceholderText = "search for or add tags";
@@ -138,7 +184,7 @@
 			this.label1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.TlpMain.SetColumnSpan(this.label1, 6);
 			this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.label1.Location = new System.Drawing.Point(2, 157);
+			this.label1.Location = new System.Drawing.Point(2, 230);
 			this.label1.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.label1.Name = "label1";
 			this.TlpMain.SetRowSpan(this.label1, 2);
@@ -188,14 +234,16 @@
 			this.FlpFiles.Location = new System.Drawing.Point(300, 0);
 			this.FlpFiles.Margin = new System.Windows.Forms.Padding(0);
 			this.FlpFiles.Name = "FlpFiles";
-			this.TlpMain.SetRowSpan(this.FlpFiles, 8);
-			this.FlpFiles.Size = new System.Drawing.Size(899, 694);
+			this.TlpMain.SetRowSpan(this.FlpFiles, 10);
+			this.FlpFiles.Size = new System.Drawing.Size(1140, 787);
 			this.FlpFiles.TabIndex = 0;
 			// 
 			// TlpTemplate
 			// 
-			this.TlpTemplate.ColumnCount = 1;
+			this.TlpTemplate.ColumnCount = 2;
 			this.TlpTemplate.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 128F));
+			this.TlpTemplate.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 128F));
+			this.TlpTemplate.Controls.Add(this.PbxTemplateReverse, 1, 1);
 			this.TlpTemplate.Controls.Add(this.LblFNameTemplate, 0, 0);
 			this.TlpTemplate.Controls.Add(this.PbxTemplate, 0, 1);
 			this.TlpTemplate.Controls.Add(this.FlpTemplate, 0, 2);
@@ -205,19 +253,31 @@
 			this.TlpTemplate.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this.TlpTemplate.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 128F));
 			this.TlpTemplate.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
-			this.TlpTemplate.Size = new System.Drawing.Size(128, 217);
+			this.TlpTemplate.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.TlpTemplate.Size = new System.Drawing.Size(256, 217);
 			this.TlpTemplate.TabIndex = 0;
 			this.TlpTemplate.Visible = false;
+			// 
+			// PbxTemplateReverse
+			// 
+			this.PbxTemplateReverse.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+			this.PbxTemplateReverse.Location = new System.Drawing.Point(128, 20);
+			this.PbxTemplateReverse.Margin = new System.Windows.Forms.Padding(0);
+			this.PbxTemplateReverse.Name = "PbxTemplateReverse";
+			this.PbxTemplateReverse.Size = new System.Drawing.Size(128, 128);
+			this.PbxTemplateReverse.TabIndex = 3;
+			this.PbxTemplateReverse.TabStop = false;
 			// 
 			// LblFNameTemplate
 			// 
 			this.LblFNameTemplate.AutoSize = true;
 			this.LblFNameTemplate.BackColor = System.Drawing.Color.Aqua;
+			this.TlpTemplate.SetColumnSpan(this.LblFNameTemplate, 2);
 			this.LblFNameTemplate.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.LblFNameTemplate.Location = new System.Drawing.Point(0, 0);
 			this.LblFNameTemplate.Margin = new System.Windows.Forms.Padding(0);
 			this.LblFNameTemplate.Name = "LblFNameTemplate";
-			this.LblFNameTemplate.Size = new System.Drawing.Size(128, 20);
+			this.LblFNameTemplate.Size = new System.Drawing.Size(256, 20);
 			this.LblFNameTemplate.TabIndex = 0;
 			this.LblFNameTemplate.Text = "FileName.png";
 			// 
@@ -235,6 +295,7 @@
 			// 
 			this.FlpTemplate.AllowDrop = true;
 			this.FlpTemplate.BackColor = System.Drawing.Color.DimGray;
+			this.TlpTemplate.SetColumnSpan(this.FlpTemplate, 2);
 			this.FlpTemplate.Controls.Add(this.LblTagTemplate);
 			this.FlpTemplate.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.FlpTemplate.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
@@ -242,7 +303,7 @@
 			this.FlpTemplate.Margin = new System.Windows.Forms.Padding(0);
 			this.FlpTemplate.Name = "FlpTemplate";
 			this.FlpTemplate.Padding = new System.Windows.Forms.Padding(1);
-			this.FlpTemplate.Size = new System.Drawing.Size(128, 69);
+			this.FlpTemplate.Size = new System.Drawing.Size(256, 69);
 			this.FlpTemplate.TabIndex = 2;
 			// 
 			// LblTagTemplate
@@ -261,11 +322,11 @@
 			this.FlpTags.BackColor = System.Drawing.Color.DimGray;
 			this.TlpMain.SetColumnSpan(this.FlpTags, 6);
 			this.FlpTags.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.FlpTags.Location = new System.Drawing.Point(2, 267);
+			this.FlpTags.Location = new System.Drawing.Point(2, 340);
 			this.FlpTags.Margin = new System.Windows.Forms.Padding(2, 3, 3, 3);
 			this.FlpTags.Name = "FlpTags";
 			this.FlpTags.Padding = new System.Windows.Forms.Padding(1);
-			this.FlpTags.Size = new System.Drawing.Size(295, 424);
+			this.FlpTags.Size = new System.Drawing.Size(295, 444);
 			this.FlpTags.TabIndex = 1;
 			// 
 			// BtnSelectFolder
@@ -368,6 +429,27 @@
 			this.BtnLoadState.UseVisualStyleBackColor = false;
 			this.BtnLoadState.Click += new System.EventHandler(this.BtnLoadA1111Tags_Click);
 			// 
+			// CbxMirror
+			// 
+			this.CbxMirror.Appearance = System.Windows.Forms.Appearance.Button;
+			this.CbxMirror.AutoSize = true;
+			this.CbxMirror.Checked = true;
+			this.CbxMirror.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.TlpMain.SetColumnSpan(this.CbxMirror, 3);
+			this.CbxMirror.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.CbxMirror.FlatAppearance.BorderSize = 2;
+			this.CbxMirror.FlatAppearance.CheckedBackColor = System.Drawing.Color.PaleGreen;
+			this.CbxMirror.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.CbxMirror.Location = new System.Drawing.Point(2, 185);
+			this.CbxMirror.Margin = new System.Windows.Forms.Padding(2, 1, 1, 1);
+			this.CbxMirror.Name = "CbxMirror";
+			this.CbxMirror.Size = new System.Drawing.Size(147, 43);
+			this.CbxMirror.TabIndex = 13;
+			this.CbxMirror.Text = "Show and Export Mirrored Images";
+			this.CbxMirror.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.CbxMirror.UseVisualStyleBackColor = true;
+			this.CbxMirror.Click += new System.EventHandler(this.CbxMirror_Click);
+			// 
 			// CmsTag
 			// 
 			this.CmsTag.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -439,7 +521,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(1199, 694);
+			this.ClientSize = new System.Drawing.Size(1440, 787);
 			this.Controls.Add(this.TlpMain);
 			this.Name = "MainForm";
 			this.Text = "Stable Diffusion Embeddings Image Tag Generation Helper - v1.1.0.0";
@@ -448,6 +530,7 @@
 			this.FlpFiles.ResumeLayout(false);
 			this.TlpTemplate.ResumeLayout(false);
 			this.TlpTemplate.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.PbxTemplateReverse)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.PbxTemplate)).EndInit();
 			this.FlpTemplate.ResumeLayout(false);
 			this.FlpTemplate.PerformLayout();
@@ -486,5 +569,9 @@
 		private System.Windows.Forms.Button BtnClearTags;
 		private System.Windows.Forms.Button BtnLoadState;
 		private System.Windows.Forms.Button BtnLoadFileTags;
+		private System.Windows.Forms.PictureBox PbxTemplateReverse;
+		private System.Windows.Forms.Button BtnExport;
+		private System.Windows.Forms.CheckBox CbxResize;
+		private System.Windows.Forms.CheckBox CbxMirror;
 	}
 }

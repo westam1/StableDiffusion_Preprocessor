@@ -105,6 +105,10 @@ namespace Embedding_Name_Helper {
 		}
 		private void Lbl_MouseUp(object sender, MouseEventArgs e) {
 			if (MousePos != Point.Empty && e.Button == MouseButtons.Left) {
+				if ((Control.ModifierKeys & Keys.Control) == 0) {
+					Utils.Parent.UnselectAll();
+				}
+
 				Selected = !Selected;
 
 				CheckLabelStatus();

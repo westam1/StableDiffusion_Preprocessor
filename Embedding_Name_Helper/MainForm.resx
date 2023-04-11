@@ -58,7 +58,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="label1.Text" xml:space="preserve">
-    <value>-Click tags to select them to do group operations
+    <value>-Click or ctrl-click tags to select for group operations
 -Click and Drag Tags to pictures
 -Right-click tags for additional options
 -Edit tags to change display order and text
