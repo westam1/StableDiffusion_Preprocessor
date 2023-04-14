@@ -14,11 +14,12 @@ namespace Embedding_Name_Helper {
 		private readonly List<TagRef> m_MasterTags;
 		private readonly FilePlateRef m_Master;
 		private TagOrderForm m_TagOrderForm;
-		private int m_TagIndex;
+		private int m_TagIndex, m_LastSizeCode = 0;
 		private AutoCompleteStringCollection m_ACSource;
 
 		//TODO: See if there's a master block for all paint operations in winforms. individual controls still paint and that's the slowdown(probably)
 		//TODO: Cleaner and smoother interface for removing tags and for multi-select, clearing selections
+		//TODO: View Zoom for image display
 
 		public MainForm() {
 			InitializeComponent();
@@ -27,7 +28,7 @@ namespace Embedding_Name_Helper {
 			m_Master = new FilePlateRef(TlpTemplate, LblFNameTemplate, PbxTemplate, PbxTemplateReverse, FlpTemplate);
 			m_ACSource = new AutoCompleteStringCollection();
 			CacheTextMeasure = FlpTags.CreateGraphics();
-			this.DoubleBuffered = true;
+			DoubleBuffered = true;
 			TbxTag.AutoCompleteCustomSource = m_ACSource;
 
 			CmsiHide.Tag = CmsTag;
@@ -57,6 +58,7 @@ namespace Embedding_Name_Helper {
 			}
 			ResumeLayout();
 		}
+
 		private TagRef AddMasterTag(string Input, int InitialUses) {
 			TagRef toAdd = new(Input, null);
 			if (!m_MasterTags.Contains(toAdd)) {
@@ -150,11 +152,24 @@ namespace Embedding_Name_Helper {
 			}
 		}
 		private void CheckPlateSize() {
+			int sizeCode = 1;
+			int baseSize = 128;
+
+			if (Opt512.Checked) { sizeCode = 3; baseSize = 512; }
+			if (Opt256.Checked) { sizeCode = 2; baseSize = 256; }
+
 			StartBigUpdate();
 			foreach (FilePlateRef plate in m_Plates) {
-				plate.m_TLP.Width = ((CbxMirror.Checked) ? 256 : 128);
+				plate.m_TLP.Width = baseSize * ((CbxMirror.Checked) ? 2 : 1);
+				plate.m_TLP.ColumnStyles[0].Width = plate.m_TLP.RowStyles[1].Height = baseSize;
+				plate.m_TLP.Height = (int)(plate.m_TLP.RowStyles[0].Height + plate.m_TLP.RowStyles[1].Height + plate.m_TLP.RowStyles[2].Height);
+
+				if (sizeCode != m_LastSizeCode) {
+					// TODO: Check plate image size here for new view panel
+				}
 			}
 			StopBigUpdate();
+			m_LastSizeCode = sizeCode;
 		}
 
 		private void ParseCommittedTags(FilePlateRef Plate, byte[] Data) {
@@ -403,6 +418,9 @@ namespace Embedding_Name_Helper {
 			if (CbxMirror.Checked) {
 				GenerateMirroredImages();
 			}
+			CheckPlateSize();
+		}
+		private void OptViewSize_Click(object sender, EventArgs e) {
 			CheckPlateSize();
 		}
 
