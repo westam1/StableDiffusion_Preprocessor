@@ -19,7 +19,6 @@ namespace Embedding_Name_Helper {
 
 		//TODO: See if there's a master block for all paint operations in winforms. individual controls still paint and that's the slowdown(probably)
 		//TODO: Cleaner and smoother interface for removing tags and for multi-select, clearing selections
-		//TODO: View Zoom for image display
 
 		public MainForm() {
 			InitializeComponent();
@@ -163,10 +162,6 @@ namespace Embedding_Name_Helper {
 				plate.m_TLP.Width = baseSize * ((CbxMirror.Checked) ? 2 : 1);
 				plate.m_TLP.ColumnStyles[0].Width = plate.m_TLP.RowStyles[1].Height = baseSize;
 				plate.m_TLP.Height = (int)(plate.m_TLP.RowStyles[0].Height + plate.m_TLP.RowStyles[1].Height + plate.m_TLP.RowStyles[2].Height);
-
-				if (sizeCode != m_LastSizeCode) {
-					// TODO: Check plate image size here for new view panel
-				}
 			}
 			StopBigUpdate();
 			m_LastSizeCode = sizeCode;
@@ -275,7 +270,7 @@ namespace Embedding_Name_Helper {
 				}
 			}
 
-			string trainingFolder = folder + "//TrainingSet";
+			string trainingFolder = folder + "\\TrainingSet";
 			if (Directory.Exists(trainingFolder)) { 
 				foreach (string files in Directory.GetFiles(trainingFolder)) {
 					File.Delete(files);
@@ -284,7 +279,7 @@ namespace Embedding_Name_Helper {
 			}
 			Directory.CreateDirectory(trainingFolder);
 			foreach (FilePlateRef plate in m_Plates) {
-				string fName = trainingFolder + "//FileGen_" + index;
+				string fName = trainingFolder + "\\FileGen_" + index;
 				writeTextFile(fName, plate);
 				writeImgFile(fName, plate, CbxResize.Checked, plate.Image);
 				if (CbxMirror.Checked) {
