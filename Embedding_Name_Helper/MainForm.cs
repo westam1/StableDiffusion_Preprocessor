@@ -14,7 +14,7 @@ namespace Embedding_Name_Helper {
 		private readonly List<TagRef> m_MasterTags;
 		private readonly FilePlateRef m_Master;
 		private TagOrderForm m_TagOrderForm;
-		private int m_TagIndex, m_LastSizeCode = 0;
+		private int m_TagIndex;
 		private AutoCompleteStringCollection m_ACSource;
 
 		//TODO: See if there's a master block for all paint operations in winforms. individual controls still paint and that's the slowdown(probably)
