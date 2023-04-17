@@ -151,11 +151,10 @@ namespace Embedding_Name_Helper {
 			}
 		}
 		private void CheckPlateSize() {
-			int sizeCode = 1;
 			int baseSize = 128;
 
-			if (Opt512.Checked) { sizeCode = 3; baseSize = 512; }
-			if (Opt256.Checked) { sizeCode = 2; baseSize = 256; }
+			if (Opt512.Checked) { baseSize = 512; }
+			if (Opt256.Checked) { baseSize = 256; }
 
 			StartBigUpdate();
 			foreach (FilePlateRef plate in m_Plates) {
@@ -164,7 +163,6 @@ namespace Embedding_Name_Helper {
 				plate.m_TLP.Height = (int)(plate.m_TLP.RowStyles[0].Height + plate.m_TLP.RowStyles[1].Height + plate.m_TLP.RowStyles[2].Height);
 			}
 			StopBigUpdate();
-			m_LastSizeCode = sizeCode;
 		}
 
 		private void ParseCommittedTags(FilePlateRef Plate, byte[] Data) {
