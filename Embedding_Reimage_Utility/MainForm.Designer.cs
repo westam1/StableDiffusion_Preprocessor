@@ -64,7 +64,7 @@
 			this.TlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
 			this.TlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
 			this.TlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
-			this.TlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 338F));
+			this.TlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 308F));
 			this.TlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this.TlpMain.Size = new System.Drawing.Size(1425, 610);
 			this.TlpMain.TabIndex = 0;
@@ -78,7 +78,7 @@
 			this.PbxOld.Margin = new System.Windows.Forms.Padding(0);
 			this.PbxOld.Name = "PbxOld";
 			this.TlpMain.SetRowSpan(this.PbxOld, 7);
-			this.PbxOld.Size = new System.Drawing.Size(704, 542);
+			this.PbxOld.Size = new System.Drawing.Size(704, 512);
 			this.PbxOld.TabIndex = 0;
 			this.PbxOld.TabStop = false;
 			// 
@@ -91,7 +91,7 @@
 			this.PbxNew.Margin = new System.Windows.Forms.Padding(0);
 			this.PbxNew.Name = "PbxNew";
 			this.TlpMain.SetRowSpan(this.PbxNew, 7);
-			this.PbxNew.Size = new System.Drawing.Size(512, 542);
+			this.PbxNew.Size = new System.Drawing.Size(512, 512);
 			this.PbxNew.TabIndex = 0;
 			this.PbxNew.TabStop = false;
 			// 
@@ -146,6 +146,7 @@
 			this.TbxName.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.TbxName.Location = new System.Drawing.Point(3, 123);
 			this.TbxName.Name = "TbxName";
+			this.TbxName.PlaceholderText = "Edit the embedding\'s name here";
 			this.TbxName.Size = new System.Drawing.Size(194, 23);
 			this.TbxName.TabIndex = 4;
 			// 
@@ -176,7 +177,7 @@
 			this.ClientSize = new System.Drawing.Size(1425, 610);
 			this.Controls.Add(this.TlpMain);
 			this.Name = "MainForm";
-			this.Text = "Textual Inversion Embedding Re-Image Utility - v0.1.0.0";
+			this.Text = "Textual Inversion Embedding Re-Image Utility - v1.0";
 			this.TlpMain.ResumeLayout(false);
 			this.TlpMain.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.PbxOld)).EndInit();
