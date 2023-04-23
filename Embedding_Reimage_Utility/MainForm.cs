@@ -136,7 +136,7 @@ namespace Embedding_Reimage_Utility {
 			if (PbxOld.BackgroundImage == null || PbxNew.BackgroundImage == null || m_TIDat == null) { return; }
 
 			using (MemoryStream mem = new()) {
-				Bitmap output = new(PbxOld.BackgroundImage);
+				Bitmap output = new(Image.FromFile("template_Image.png"));
 				Graphics draw = Graphics.FromImage(output);
 				SizeF measureHash = draw.MeasureString("[" + m_TIDat.CheckpointHash + "]", MODEL_FONT);
 				SizeF measureVS = draw.MeasureString(TbxVectorStep.Text, MODEL_FONT);

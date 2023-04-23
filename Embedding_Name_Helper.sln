@@ -5,7 +5,9 @@ VisualStudioVersion = 17.4.33122.133
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Embedding_Training_Helper", "Embedding_Name_Helper\Embedding_Training_Helper.csproj", "{1ED91280-F2CB-42FA-A3CD-CF541D4B3F98}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Embedding_Reimage_Utility", "Embedding_Reimage_Utility\Embedding_Reimage_Utility.csproj", "{04694B4D-1111-4582-9807-01A95ACB3181}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Embedding_Reimage_Utility", "Embedding_Reimage_Utility\Embedding_Reimage_Utility.csproj", "{04694B4D-1111-4582-9807-01A95ACB3181}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Image_Tag_Search", "Image_Tag_Search\Image_Tag_Search.csproj", "{2972B4FD-7E6A-486B-811C-85884084010E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,6 +33,14 @@ Global
 		{04694B4D-1111-4582-9807-01A95ACB3181}.Release|Any CPU.Build.0 = Release|Any CPU
 		{04694B4D-1111-4582-9807-01A95ACB3181}.Release|x64.ActiveCfg = Release|Any CPU
 		{04694B4D-1111-4582-9807-01A95ACB3181}.Release|x64.Build.0 = Release|Any CPU
+		{2972B4FD-7E6A-486B-811C-85884084010E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2972B4FD-7E6A-486B-811C-85884084010E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2972B4FD-7E6A-486B-811C-85884084010E}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{2972B4FD-7E6A-486B-811C-85884084010E}.Debug|x64.Build.0 = Debug|Any CPU
+		{2972B4FD-7E6A-486B-811C-85884084010E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2972B4FD-7E6A-486B-811C-85884084010E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2972B4FD-7E6A-486B-811C-85884084010E}.Release|x64.ActiveCfg = Release|Any CPU
+		{2972B4FD-7E6A-486B-811C-85884084010E}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
