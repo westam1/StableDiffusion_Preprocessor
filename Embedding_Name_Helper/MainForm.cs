@@ -19,6 +19,7 @@ namespace Embedding_Name_Helper {
 
 		//TODO: See if there's a master block for all paint operations in winforms. individual controls still paint and that's the slowdown(probably)
 		//TODO: Cleaner and smoother interface for removing tags and for multi-select, clearing selections
+		//TODO: Preservable way to select images for export to training set rather than forcing user to manually delete
 
 		public MainForm() {
 			InitializeComponent();
