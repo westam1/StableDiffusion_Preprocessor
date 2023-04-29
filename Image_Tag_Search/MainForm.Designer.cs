@@ -323,7 +323,7 @@
 			this.ClientSize = new System.Drawing.Size(1440, 787);
 			this.Controls.Add(this.TlpMain);
 			this.Name = "MainForm";
-			this.Text = "Stable Diffusion A1111 Bulk Image Search Utility v0.1.0.0";
+			this.Text = "Stable Diffusion A1111 Bulk Image Search Utility v1.0.0.0";
 			this.TlpMain.ResumeLayout(false);
 			this.TlpMain.PerformLayout();
 			this.FlpFiles.ResumeLayout(false);

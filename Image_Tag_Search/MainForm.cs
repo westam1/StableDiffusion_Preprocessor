@@ -1,30 +1,21 @@
-﻿using System;
-using System.IO;
-using System.Text;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.Collections.Generic;
-using static System.Net.WebRequestMethods;
+﻿using System.Text;
 
 using File = System.IO.File;
 namespace Image_Tag_Search {
 	public partial class MainForm : Form {
 		private readonly List<FilePlateRef> m_Plates;
 		private readonly FilePlateRef m_Master;
-		private AutoCompleteStringCollection m_ACSource;
 		private Dictionary<string, List<string>> m_Index;
 
 		//TODO: Image resize doesn't resize the column style or TLP 
-		//TODO: Needs too much memory. Also, Profile the load process, see if the time can be trimmed down
+		//TODO: Needs too much memory(tied to autocomplete source collection). Also, Profile the load process, see if the time can be trimmed down (tied to addrange on autocomplete strings)
 
 		public MainForm() {
 			InitializeComponent();
 			m_Plates = new List<FilePlateRef>();
 			m_Master = new FilePlateRef(TlpTemplate, LblFNameTemplate, PbxTemplate);
 			m_Index = new Dictionary<string, List<string>>();
-			m_ACSource = new AutoCompleteStringCollection();
 			DoubleBuffered = true;
-			TbxTag.AutoCompleteCustomSource = m_ACSource;
 
 			CmsiHide.Tag = CmsTag;
 			CmsiShow.Tag = CmsTag;
@@ -58,13 +49,13 @@ namespace Image_Tag_Search {
 
 			StartBigUpdate();
 			foreach (FilePlateRef plate in m_Plates) {
-				plate.m_TLP.ColumnStyles[0].Width = plate.m_TLP.RowStyles[1].Height = baseSize;
+				plate.m_TLP.ColumnStyles[0].Width = plate.m_TLP.RowStyles[1].Height = plate.m_TLP.Width = baseSize;
 				plate.m_TLP.Height = (int)(plate.m_TLP.RowStyles[0].Height + plate.m_TLP.RowStyles[1].Height + plate.m_TLP.RowStyles[2].Height);
 			}
 			StopBigUpdate();
 		}
 
-		private void ParseA1111Chunk(byte[] Data, string FName) {
+		private void ParseA1111Chunk(byte[] Data, string FName, AutoCompleteStringCollection ACS) {
 			// Note PNG: 4byte len, 4byte type, 4byte crc, len data. chunks repeat. tEXt chunk is the one a1111 uses
 			bool parsing = true;
 			using (BinaryReader reader = new BinaryReader(new MemoryStream(Data))) {
@@ -79,7 +70,7 @@ namespace Image_Tag_Search {
 						if (type == 0x74455874) {
 							string[] prms = Utils.Tokenize(Encoding.ASCII.GetString(buf, 0, len).Split('\n')[0][7..]);
 
-							m_ACSource.AddRange(prms);
+							ACS.AddRange(prms);
 							foreach (string token in prms) {
 								IndexString(token, FName);
 							}
@@ -94,29 +85,31 @@ namespace Image_Tag_Search {
 		private void IndexFolder(string Folder) {
 			if (Folder == null || !Directory.Exists(Folder)) { return; }
 			string[] files = Directory.GetFiles(Folder, "*.png");
-			m_ACSource.Clear();
+			TbxTag.AutoCompleteCustomSource.Clear();
 			PbrLoading.Maximum = files.Length;
 			PbrLoading.Visible = true;
 			PbrLoading.Value = 0;
+			AutoCompleteStringCollection acSource = new AutoCompleteStringCollection();
 			StartBigUpdate();
 
 			foreach (string fName in files) {
 				using (FileStream fStream = File.Open(fName, FileMode.Open, FileAccess.Read)) {
 					byte[] data = new byte[fStream.Length];
 					fStream.Read(data, 0, data.Length);
-					ParseA1111Chunk(data, fName);
+					ParseA1111Chunk(data, fName, acSource);
 				}
 				PbrLoading.Value++;
 				Application.DoEvents();						// Note: Looks better to see things popping in than to see things frozen by layout suspend. Probably add progress bar.
 			}
 
 			PbrLoading.Visible = false;
+			TbxTag.AutoCompleteCustomSource = acSource;
 			CheckPlateSize();
 			StopBigUpdate();
 		}
 		private void LoadFolder(List<string> Files) {
 			FlpFiles.Controls.Clear();
-
+			GC.Collect();
 			PbrLoading.Maximum = Files.Count;
 			PbrLoading.Visible = true;
 			PbrLoading.Value = 0;
