@@ -586,7 +586,7 @@
 			this.ClientSize = new System.Drawing.Size(1440, 787);
 			this.Controls.Add(this.TlpMain);
 			this.Name = "MainForm";
-			this.Text = "Stable Diffusion Embeddings Image Tag Generation Helper - v1.2.0.0";
+			this.Text = "Stable Diffusion Embeddings Image Tag Generation Helper - v1.3.0.0";
 			this.TlpMain.ResumeLayout(false);
 			this.TlpMain.PerformLayout();
 			this.FlpFiles.ResumeLayout(false);

@@ -51,6 +51,7 @@ namespace Embedding_Name_Helper {
 
 			m_Flp.DragEnter += Flp_DragEnter;
 			m_Flp.DragDrop += Flp_DragDrop;
+			m_Lbl.Click += Label_Click;
 
 			foreach (RowStyle style in ToCopy.m_TLP.RowStyles) {
 				m_TLP.RowStyles.Add(new RowStyle(style.SizeType, style.Height));
@@ -74,6 +75,15 @@ namespace Embedding_Name_Helper {
 			m_TLP.SetColumn(m_Flp, 0);
 			m_TLP.SetColumnSpan(m_Flp, 2);
 		}
+
+		private void Label_Click(object sender, System.EventArgs e) {
+			SelectedForCommit = !SelectedForCommit;
+			CheckColor();
+		}
+		public void CheckColor() {
+			m_Lbl.BackColor = ((SelectedForCommit) ? Color.Aqua : Color.Gray);
+		}
+
 		public void Finalize_Load() {
 			m_TLP.ResumeLayout();
 			m_Flp.ResumeLayout();
@@ -120,6 +130,7 @@ namespace Embedding_Name_Helper {
 		}
 
 		public string Text { get { return m_Lbl.Text; } set { m_Lbl.Text = value; } }
+		public bool SelectedForCommit { get; set; } = true;
 		public Image Image { get { return m_Pbx.BackgroundImage; } set { m_Pbx.BackgroundImage = value; } }
 		public TableLayoutPanel Reference { get { return m_TLP; } }
 	}

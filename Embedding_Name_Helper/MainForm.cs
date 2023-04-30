@@ -10,6 +10,8 @@ using System.Xml.Linq;
 
 namespace Embedding_Name_Helper {
 	public partial class MainForm : Form {
+		private const string SelectedFileName = "selected.txt";
+
 		private readonly List<FilePlateRef> m_Plates;
 		private readonly List<TagRef> m_MasterTags;
 		private readonly FilePlateRef m_Master;
@@ -19,7 +21,6 @@ namespace Embedding_Name_Helper {
 
 		//TODO: See if there's a master block for all paint operations in winforms. individual controls still paint and that's the slowdown(probably)
 		//TODO: Cleaner and smoother interface for removing tags and for multi-select, clearing selections
-		//TODO: Preservable way to select images for export to training set rather than forcing user to manually delete
 
 		public MainForm() {
 			InitializeComponent();
@@ -151,7 +152,7 @@ namespace Embedding_Name_Helper {
 				plate.m_Mirror.Invalidate();
 			}
 		}
-		private void CheckPlateSize() {
+		private void CheckPlates() {
 			int baseSize = 128;
 
 			if (Opt512.Checked) { baseSize = 512; }
@@ -162,6 +163,8 @@ namespace Embedding_Name_Helper {
 				plate.m_TLP.Width = baseSize * ((CbxMirror.Checked) ? 2 : 1);
 				plate.m_TLP.ColumnStyles[0].Width = plate.m_TLP.RowStyles[1].Height = baseSize;
 				plate.m_TLP.Height = (int)(plate.m_TLP.RowStyles[0].Height + plate.m_TLP.RowStyles[1].Height + plate.m_TLP.RowStyles[2].Height);
+
+				plate.CheckColor();
 			}
 			StopBigUpdate();
 		}
@@ -172,6 +175,7 @@ namespace Embedding_Name_Helper {
 			foreach (string token in tags) {
 				Plate.AddTags(AddMasterTag(token, 1));
 			}
+			Plate.SelectedForCommit = false;
 		}
 		private void ParseA1111Chunk(FilePlateRef Plate, byte[] Data) {
 			// Note PNG: 4byte len, 4byte type, 4byte crc, len data. chunks repeat. tEXt chunk is the one a1111 uses
@@ -198,9 +202,11 @@ namespace Embedding_Name_Helper {
 				}
 				catch { parsing = false; /* Note: Exception here could be bug, or could be not A1111 tEXt chunk. */ }
 			}
+			Plate.SelectedForCommit = true;
 		}
 		private void LoadFolder(string Folder) {
 			if (Folder == null || !Directory.Exists(Folder)) { return; }
+			bool loadingFromState = false;
 
 			FlpFiles.Controls.Clear();
 			m_MasterTags.Clear();
@@ -215,6 +221,7 @@ namespace Embedding_Name_Helper {
 				string txtFile = fName[..(fName.Length - 3)] + "txt";
 				using (FileStream fStream = File.Open(fName, FileMode.Open, FileAccess.Read)) {
 					if (File.Exists(txtFile)) {
+						loadingFromState = true;
 						using (FileStream txtfStream = File.Open(txtFile, FileMode.Open, FileAccess.Read)) {
 							byte[] data = new byte[txtfStream.Length];
 							txtfStream.Read(data, 0, data.Length);
@@ -236,10 +243,28 @@ namespace Embedding_Name_Helper {
 				Application.DoEvents();						// Note: Looks better to see things popping in than to see things frozen by layout suspend. Probably add progress bar.
 			}
 
+			if (loadingFromState) {
+				LoadSelected();
+			}
 			CheckTagColors();
 			if (CbxMirror.Checked) { GenerateMirroredImages(); }
-			CheckPlateSize();
+			CheckPlates();
 			StopBigUpdate();
+		}
+		private void LoadSelected() {
+			if (BtnSelectFolder.Tag is not string folder) { return; }
+			if (!File.Exists(folder + "\\" + SelectedFileName)) { return; }
+
+			using (BinaryReader reader = new(File.Open(folder + "\\" + SelectedFileName, FileMode.OpenOrCreate, FileAccess.Read))) {
+				byte[] data = new byte[reader.BaseStream.Length];
+				reader.Read(data, 0, data.Length);
+				string fileContents = Encoding.ASCII.GetString(data);
+				List<string> fileList = new List<string>();
+				fileList.AddRange(fileContents.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries));
+				foreach(FilePlateRef plate in m_Plates) {
+					plate.SelectedForCommit = fileList.Contains(plate.Text);
+				}
+			}
 		}
 		private void ExportToTrainingFolder() {
 			int index = 0;
@@ -278,6 +303,8 @@ namespace Embedding_Name_Helper {
 			}
 			Directory.CreateDirectory(trainingFolder);
 			foreach (FilePlateRef plate in m_Plates) {
+				if (!plate.SelectedForCommit) { continue; }
+
 				string fName = trainingFolder + "\\FileGen_" + index;
 				writeTextFile(fName, plate);
 				writeImgFile(fName, plate, CbxResize.Checked, plate.Image);
@@ -294,9 +321,10 @@ namespace Embedding_Name_Helper {
 
 		private void CommitStateToFiles() {
 			if (BtnSelectFolder.Tag is not string folder) { return; }
+			List<string> selected = new List<string>();
 
 			foreach (FilePlateRef plate in m_Plates) {
-				string fName = Utils.EnsureExtension(folder + "//" + plate.Text, "txt");
+				string fName = Utils.EnsureExtension(folder + "\\" + plate.Text, "txt");
 				bool first = true;
 				using (BinaryWriter writer = new(File.Open(fName, FileMode.OpenOrCreate, FileAccess.Write))) {
 					writer.BaseStream.SetLength(0);
@@ -306,6 +334,13 @@ namespace Embedding_Name_Helper {
 							first = false;
 						}
 					}
+				}
+				if (plate.SelectedForCommit) { selected.Add(plate.Text); }
+			}
+			using (BinaryWriter writer = new(File.Open(folder + "\\" + SelectedFileName, FileMode.OpenOrCreate, FileAccess.Write))) {
+				writer.BaseStream.SetLength(0);
+				foreach(string str in selected) {
+					writer.Write((str + "\r\n").ToCharArray());
 				}
 			}
 		}
@@ -403,6 +438,7 @@ namespace Embedding_Name_Helper {
 				}	
 				Application.DoEvents();
 			}
+			LoadSelected();
 			CheckTagColors();
 		}
 		private void BtnExport_Click(object sender, EventArgs e) {
@@ -412,10 +448,10 @@ namespace Embedding_Name_Helper {
 			if (CbxMirror.Checked) {
 				GenerateMirroredImages();
 			}
-			CheckPlateSize();
+			CheckPlates();
 		}
 		private void OptViewSize_Click(object sender, EventArgs e) {
-			CheckPlateSize();
+			CheckPlates();
 		}
 
 		private void CmsTag_Opening(object sender, System.ComponentModel.CancelEventArgs e) {
